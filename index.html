@@ -1,1365 +1,427 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<meta name="theme-color" content="#1a3a2a"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<title>Arafah Companion | يوم عرفة</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet"/>
-<style>
-:root{
-  --bg:#f5f0e8;
-  --bg2:#ede6d6;
-  --bg3:#e4dcc8;
-  --card:#ffffffcc;
-  --card2:#faf6ee;
-  --gold:#b8923a;
-  --gold2:#d4a853;
-  --gold3:#f0c97a;
-  --emerald:#1a5c3a;
-  --emerald2:#2a7a50;
-  --emerald3:#3d9966;
-  --emerald4:#c8e6d4;
-  --text:#1e1e1e;
-  --text2:#4a4a4a;
-  --text3:#7a7a6a;
-  --border:#d4c9a8;
-  --shadow:0 4px 24px rgba(26,60,42,0.10);
-  --shadow2:0 8px 40px rgba(26,60,42,0.16);
-  --radius:18px;
-  --radius2:12px;
-  --transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
-}
-[data-theme="dark"]{
-  --bg:#0d1a12;
-  --bg2:#111f16;
-  --bg3:#162618;
-  --card:#1a2e1fcc;
-  --card2:#1e331f;
-  --gold:#d4a853;
-  --gold2:#e8c070;
-  --gold3:#f5d98a;
-  --emerald:#2a7a50;
-  --emerald2:#3d9966;
-  --emerald3:#5ab87f;
-  --emerald4:#1a3a28;
-  --text:#f0ebe0;
-  --text2:#c8c0a8;
-  --text3:#8a8470;
-  --border:#2a3d2e;
-  --shadow:0 4px 24px rgba(0,0,0,0.4);
-  --shadow2:0 8px 40px rgba(0,0,0,0.5);
-}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;overflow-x:hidden}
-body{transition:background 0.4s,color 0.4s}
-
-/* ===== GEOMETRIC BACKGROUND ===== */
-.geo-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;opacity:0.06}
-.geo-bg svg{width:100%;height:100%}
-
-/* ===== SCREENS ===== */
-.screen{display:none;min-height:100vh;position:relative;z-index:1}
-.screen.active{display:block}
-.screen-fade{animation:fadeIn 0.5s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
-/* ===== NAV ===== */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--card);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:8px 0 max(8px,env(safe-area-inset-bottom));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 16px;border:none;background:none;color:var(--text3);cursor:pointer;font-family:'Lato',sans-serif;font-size:10px;letter-spacing:0.5px;transition:var(--transition);border-radius:12px}
-.nav-btn.active{color:var(--emerald2)}
-.nav-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.nav-btn.active svg{stroke:var(--emerald2)}
-.nav-btn span{font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase}
-
-/* ===== TOP BAR ===== */
-.top-bar{display:flex;align-items:center;justify-content:space-between;padding:56px 20px 16px;position:sticky;top:0;z-index:50;background:var(--bg);transition:background 0.4s}
-.top-bar-title{font-family:'Amiri',serif;font-size:20px;color:var(--emerald);font-weight:700}
-.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition)}
-.icon-btn:active{transform:scale(0.92)}
-.icon-btn svg{width:18px;height:18px;stroke:var(--text2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-/* ===== CARDS ===== */
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:var(--transition)}
-.card:active{transform:scale(0.98)}
-.card-gold{border-color:var(--gold);background:linear-gradient(135deg,var(--card) 0%,rgba(212,168,83,0.08) 100%)}
-.card-emerald{border-color:var(--emerald3);background:linear-gradient(135deg,var(--card) 0%,rgba(42,122,80,0.08) 100%)}
-
-/* ===== BUTTONS ===== */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:50px;border:none;font-family:'Lato',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:var(--transition);letter-spacing:0.3px}
-.btn:active{transform:scale(0.96)}
-.btn-primary{background:linear-gradient(135deg,var(--emerald) 0%,var(--emerald2) 100%);color:#fff;box-shadow:0 4px 16px rgba(26,92,58,0.35)}
-.btn-gold{background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:#fff;box-shadow:0 4px 16px rgba(184,146,58,0.35)}
-.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text2)}
-.btn-full{width:100%}
-
-/* ===== PROGRESS RING ===== */
-.progress-ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center}
-.progress-ring-bg{stroke:var(--bg3);fill:none}
-.progress-ring-fill{fill:none;stroke:var(--emerald2);stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1);transform:rotate(-90deg);transform-origin:50% 50%}
-.progress-ring-text{position:absolute;text-align:center}
-
-/* ===== DHIKR COUNTER ===== */
-.dhikr-btn{width:180px;height:180px;border-radius:50%;background:linear-gradient(135deg,var(--emerald) 0%,var(--emerald2) 100%);border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 40px rgba(26,92,58,0.4),0 0 0 0 rgba(42,122,80,0.4);transition:var(--transition);color:#fff;font-family:'Amiri',serif;user-select:none;-webkit-user-select:none}
-.dhikr-btn:active{transform:scale(0.93);box-shadow:0 4px 20px rgba(26,92,58,0.4)}
-.dhikr-btn.pulse{animation:dhikrPulse 0.3s ease}
-@keyframes dhikrPulse{0%{box-shadow:0 8px 40px rgba(26,92,58,0.4),0 0 0 0 rgba(42,122,80,0.5)}50%{box-shadow:0 8px 40px rgba(26,92,58,0.4),0 0 0 20px rgba(42,122,80,0)}100%{box-shadow:0 8px 40px rgba(26,92,58,0.4),0 0 0 0 rgba(42,122,80,0)}}
-.dhikr-count{font-size:52px;font-weight:700;line-height:1}
-.dhikr-label{font-size:16px;margin-top:4px;opacity:0.9}
-
-/* ===== DUA CARD ===== */
-.dua-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.dua-card::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(184,146,58,0.12) 0%,transparent 70%);pointer-events:none}
-.dua-arabic{font-family:'Scheherazade New',serif;font-size:26px;line-height:1.8;color:var(--emerald);text-align:right;direction:rtl}
-.dua-transliteration{font-size:13px;color:var(--text3);font-style:italic;margin:10px 0 6px;line-height:1.6}
-.dua-translation{font-size:14px;color:var(--text2);line-height:1.7}
-.dua-source{font-size:11px;color:var(--gold);font-weight:700;margin-top:12px;letter-spacing:0.5px;text-transform:uppercase}
-
-/* ===== CHECKLIST ===== */
-.check-item{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--bg3)}
-.check-item:last-child{border-bottom:none}
-.check-box{width:26px;height:26px;min-width:26px;border-radius:8px;border:2px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
-.check-box.checked{background:var(--emerald2);border-color:var(--emerald2)}
-.check-box svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity 0.2s}
-.check-box.checked svg{opacity:1}
-.check-content{flex:1}
-.check-title{font-size:15px;font-weight:700;color:var(--text);transition:var(--transition)}
-.check-item.done .check-title{text-decoration:line-through;color:var(--text3)}
-.check-subtitle{font-size:12px;color:var(--text3);margin-top:2px}
-
-/* ===== TIMELINE ===== */
-.timeline-item{display:flex;gap:16px;padding:12px 0;position:relative}
-.timeline-item::before{content:'';position:absolute;left:15px;top:32px;bottom:-12px;width:2px;background:var(--bg3);z-index:0}
-.timeline-item:last-child::before{display:none}
-.timeline-dot{width:32px;height:32px;min-width:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;position:relative;z-index:1}
-.timeline-dot.gold{background:rgba(184,146,58,0.15);border:2px solid var(--gold)}
-.timeline-dot.emerald{background:rgba(42,122,80,0.15);border:2px solid var(--emerald2)}
-.timeline-dot.active{background:var(--emerald2);border-color:var(--emerald2)}
-.timeline-time{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:0.5px;text-transform:uppercase}
-.timeline-title{font-size:15px;font-weight:700;color:var(--text);margin:2px 0}
-.timeline-desc{font-size:12px;color:var(--text3);line-height:1.6}
-
-/* ===== BADGES ===== */
-.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.4px}
-.badge-gold{background:rgba(184,146,58,0.15);color:var(--gold);border:1px solid rgba(184,146,58,0.3)}
-.badge-emerald{background:rgba(42,122,80,0.15);color:var(--emerald2);border:1px solid rgba(42,122,80,0.3)}
-
-/* ===== ONBOARDING ===== */
-#screen-onboarding{background:linear-gradient(160deg,var(--emerald) 0%,var(--bg) 60%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0 0 100px}
-.onboard-hero{width:100%;padding:60px 24px 32px;text-align:center}
-.onboard-moon{width:110px;height:110px;margin:0 auto 24px;position:relative}
-.onboard-title{font-family:'Amiri',serif;font-size:36px;color:#fff;font-weight:700;line-height:1.2}
-.onboard-subtitle{font-size:15px;color:rgba(255,255,255,0.8);margin-top:10px;line-height:1.6}
-.onboard-card{background:var(--card);border-radius:var(--radius);padding:28px;margin:0 20px;box-shadow:var(--shadow2);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.lang-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
-.lang-btn{padding:14px 8px;border-radius:var(--radius2);border:1.5px solid var(--border);background:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:14px;font-weight:700;color:var(--text2);transition:var(--transition);display:flex;flex-direction:column;align-items:center;gap:4px}
-.lang-btn.selected{border-color:var(--emerald2);background:rgba(42,122,80,0.12);color:var(--emerald2)}
-.lang-btn span.flag{font-size:22px}
-
-/* ===== HOME SCREEN ===== */
-.home-header{padding:56px 20px 0;background:linear-gradient(180deg,rgba(26,92,58,0.08) 0%,transparent 100%)}
-.home-greeting{font-size:13px;color:var(--text3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
-.home-title{font-family:'Amiri',serif;font-size:30px;color:var(--emerald);font-weight:700}
-.home-date{font-size:13px;color:var(--text3);margin-top:4px}
-.countdown-card{background:linear-gradient(135deg,var(--emerald) 0%,var(--emerald2) 100%);border-radius:var(--radius);padding:24px;margin:16px 20px;color:#fff;box-shadow:0 8px 32px rgba(26,92,58,0.4);position:relative;overflow:hidden}
-.countdown-card::after{content:'';position:absolute;bottom:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 70%);pointer-events:none}
-.countdown-label{font-size:12px;font-weight:700;letter-spacing:1px;opacity:0.8;text-transform:uppercase}
-.countdown-nums{display:flex;gap:12px;margin:10px 0;align-items:flex-end}
-.countdown-num{text-align:center}
-.countdown-big{font-size:40px;font-weight:700;line-height:1;font-family:'Amiri',serif}
-.countdown-unit{font-size:10px;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px}
-.countdown-sep{font-size:32px;line-height:1;opacity:0.5;padding-bottom:4px}
-.section-title{font-size:13px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;padding:20px 20px 10px}
-.scroll-x{display:flex;gap:12px;padding:0 20px;overflow-x:auto;scroll-snap-type:x mandatory;-ms-overflow-style:none;scrollbar-width:none}
-.scroll-x::-webkit-scrollbar{display:none}
-.scroll-x>*{scroll-snap-align:start;flex-shrink:0}
-
-/* ===== QUICK ACTIONS ===== */
-.quick-action{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
-.quick-action-icon{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;transition:var(--transition);box-shadow:var(--shadow)}
-.quick-action-icon:active{transform:scale(0.9)}
-.quick-action-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;text-align:center}
-
-/* ===== ACHIEVEMENT ===== */
-.achievement{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);margin:0 20px;box-shadow:var(--shadow)}
-.achievement-icon{font-size:32px;width:52px;text-align:center}
-.achievement-name{font-size:14px;font-weight:700;color:var(--text)}
-.achievement-desc{font-size:12px;color:var(--text3);margin-top:2px}
-.achievement-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px}
-.achievement.locked{opacity:0.45;filter:grayscale(0.6)}
-
-/* ===== SETTINGS ===== */
-.settings-section{padding:0 20px;margin-bottom:20px}
-.settings-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;padding-left:4px}
-.settings-row{display:flex;align-items:center;justify-content:space-between;padding:15px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);margin-bottom:8px}
-.settings-row-left{display:flex;align-items:center;gap:12px}
-.settings-row-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.settings-row-text{font-size:15px;font-weight:700;color:var(--text)}
-.settings-row-sub{font-size:12px;color:var(--text3)}
-.toggle{width:46px;height:26px;border-radius:13px;background:var(--bg3);border:none;cursor:pointer;position:relative;transition:background 0.3s;flex-shrink:0}
-.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);transition:transform 0.3s}
-.toggle.on{background:var(--emerald2)}
-.toggle.on::after{transform:translateX(20px)}
-
-/* ===== MODAL ===== */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-.modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--bg);border-radius:28px 28px 0 0;padding:24px 24px max(24px,env(safe-area-inset-bottom));width:100%;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
-.modal-overlay.open .modal{transform:translateY(0)}
-.modal-handle{width:40px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 20px}
-.modal-title{font-family:'Amiri',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:16px}
-
-/* ===== TOAST ===== */
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--emerald);color:#fff;padding:10px 20px;border-radius:50px;font-size:14px;font-weight:700;opacity:0;transition:all 0.3s;pointer-events:none;z-index:300;white-space:nowrap;box-shadow:0 4px 20px rgba(26,92,58,0.4)}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ===== RTL SUPPORT ===== */
-[dir="rtl"] .dua-arabic{text-align:right}
-[dir="rtl"] .bottom-nav,[dir="rtl"] .scroll-x{direction:rtl}
-
-/* ===== ANIMATIONS ===== */
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-@keyframes countUp{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
-.float{animation:float 4s ease-in-out infinite}
-
-/* ===== SCROLL PAD ===== */
-.pb-nav{padding-bottom:80px}
-
-/* ===== SWIPE INDICATOR ===== */
-.swipe-hint{display:flex;justify-content:center;gap:6px;padding:12px 0}
-.swipe-dot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:var(--transition)}
-.swipe-dot.active{background:var(--emerald2);width:18px;border-radius:3px}
-
-/* ===== STAT ROW ===== */
-.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 20px;margin-bottom:16px}
-.stat-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);padding:14px 10px;text-align:center;box-shadow:var(--shadow)}
-.stat-num{font-family:'Amiri',serif;font-size:28px;font-weight:700;color:var(--emerald);line-height:1}
-.stat-label{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-top:4px}
-
-/* ===== DHIKR SCREEN ===== */
-.dhikr-screen-inner{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 20px 100px;min-height:100vh}
-.dhikr-selector{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
-.dhikr-chip{padding:8px 16px;border-radius:50px;border:1.5px solid var(--border);background:none;font-family:'Amiri',serif;font-size:15px;color:var(--text2);cursor:pointer;transition:var(--transition)}
-.dhikr-chip.active{background:var(--emerald);border-color:var(--emerald);color:#fff}
-.dhikr-target{font-size:13px;color:var(--text3);margin-top:16px;text-align:center}
-.dhikr-progress-bar{width:200px;height:6px;background:var(--bg3);border-radius:3px;margin:12px auto 0;overflow:hidden}
-.dhikr-progress-fill{height:100%;background:linear-gradient(90deg,var(--emerald) 0%,var(--gold) 100%);border-radius:3px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)}
-.vibrate{animation:vibrate 0.1s ease}
-@keyframes vibrate{0%,100%{transform:scale(1)}50%{transform:scale(0.95)}}
-
-/* ===== CONFETTI ===== */
-.confetti-piece{position:fixed;pointer-events:none;z-index:999;width:8px;height:8px;border-radius:2px;animation:confettiFall 1.5s ease forwards}
-@keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0C2218" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Arafah Companion | يوم عرفة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Geometric background -->
+<!-- Islamic Geometric Background -->
 <div class="geo-bg" aria-hidden="true">
-<svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-<defs><pattern id="geo" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse"><polygon points="40,4 76,24 76,56 40,76 4,56 4,24" fill="none" stroke="currentColor" stroke-width="1"/><polygon points="40,14 66,28 66,52 40,66 14,52 14,28" fill="none" stroke="currentColor" stroke-width="0.5"/></defs><rect width="400" height="800" fill="url(#geo)"/></svg>
+  <svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="geoPat" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+        <path d="M50 0 L61.8 38.2 L100 38.2 L69.1 61.8 L80.9 100 L50 76.4 L19.1 100 L30.9 61.8 L0 38.2 L38.2 38.2 Z" stroke="currentColor" stroke-width="0.7" fill="none"/>
+        <circle cx="50" cy="50" r="18" stroke="currentColor" stroke-width="0.4" fill="none"/>
+        <path d="M50 8 L50 92 M8 50 L92 50" stroke="currentColor" stroke-width="0.3" fill="none"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="800" fill="url(#geoPat)" color="var(--emerald)"/>
+  </svg>
 </div>
 
-<!-- ======================== ONBOARDING ======================== -->
-<div id="screen-onboarding" class="screen active screen-fade">
-  <div class="onboard-hero">
-    <div class="onboard-moon float" style="width:100px;height:100px;margin:0 auto 20px">
-      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-        <path d="M68 30 A32 32 0 1 1 68 70 A22 22 0 1 0 68 30" fill="rgba(255,255,255,0.9)"/>
-        <circle cx="72" cy="22" r="3" fill="rgba(212,168,83,0.8)"/>
-        <circle cx="80" cy="30" r="2" fill="rgba(212,168,83,0.6)"/>
-        <circle cx="78" cy="42" r="1.5" fill="rgba(212,168,83,0.5)"/>
-      </svg>
+<!-- Language Gate -->
+<section class="language-gate" id="languageGate" aria-label="Choose language">
+  <div class="language-card">
+    <div class="moon-mark">🌙</div>
+    <p class="gate-eyebrow">يَوْمُ عَرَفَة</p>
+    <h1>Arafah Companion</h1>
+    <p class="gate-arabic-quote">خَيْرُ الدُّعَاءِ دُعَاءُ يَوْمِ عَرَفَة</p>
+    <p class="gate-subtitle">Choose your language to begin. You can change it anytime from Settings.</p>
+    <div class="language-grid">
+      <button class="language-choice" data-lang="en"><strong>English</strong><span>Start in English</span></button>
+      <button class="language-choice" data-lang="fr"><strong>Français</strong><span>Commencer en français</span></button>
+      <button class="language-choice" data-lang="ar"><strong>العربية</strong><span>ابدأ بالعربية</span></button>
     </div>
-    <div style="font-family:'Scheherazade New',serif;font-size:22px;color:rgba(255,255,255,0.9);margin-bottom:6px">يَوْمُ عَرَفَة</div>
-    <h1 class="onboard-title">Arafah Companion</h1>
-    <p class="onboard-subtitle" id="onboard-desc">Your spiritual guide for the best day of the year</p>
   </div>
-  <div class="onboard-card" style="width:calc(100% - 40px);margin:0 20px">
-    <p style="font-size:13px;font-weight:700;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px;text-align:center" id="lang-select-label">Choose your language</p>
-    <div class="lang-grid">
-      <button class="lang-btn" onclick="selectLang('en')" id="lang-en">
-        <span class="flag">🇬🇧</span>
-        <span>English</span>
-      </button>
-      <button class="lang-btn" onclick="selectLang('ar')" id="lang-ar">
-        <span class="flag">🇸🇦</span>
-        <span>العربية</span>
-      </button>
-      <button class="lang-btn" onclick="selectLang('fr')" id="lang-fr">
-        <span class="flag">🇫🇷</span>
-        <span>Français</span>
-      </button>
-    </div>
-    <div style="font-family:'Scheherazade New',serif;font-size:20px;color:var(--emerald);text-align:center;padding:16px 0 14px;border-top:1px solid var(--bg3);border-bottom:1px solid var(--bg3);margin:4px 0 16px;line-height:1.8">
-      خَيْرُ يَوْمٍ طَلَعَتْ فِيهِ الشَّمْس
-    </div>
-    <p style="font-size:12px;color:var(--text3);text-align:center;margin-bottom:16px;line-height:1.6" id="hadith-sub">"The best day on which the sun rises is the Day of Arafah." — Prophet Muhammad ﷺ</p>
-    <button class="btn btn-primary btn-full" onclick="startApp()" style="font-size:16px;padding:15px">
-      <span id="start-btn-text">Begin My Day 🌙</span>
-    </button>
-  </div>
-</div>
+</section>
 
-<!-- ======================== MAIN APP ======================== -->
-<div id="screen-home" class="screen">
-  <div class="home-header">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;padding-top:0">
-      <div>
-        <div class="home-greeting" id="greeting-text">BLESSED DAY</div>
-        <h1 class="home-title" id="home-title">Day of Arafah</h1>
-        <div class="home-date" id="home-date-text"></div>
+<!-- App Shell -->
+<div class="app-shell" id="appShell">
+
+  <header class="app-header">
+    <div>
+      <span class="header-eyebrow" id="headerEyebrow">يَوْمُ عَرَفَة</span>
+      <h1 id="appTitle">Arafah Companion</h1>
+      <span class="header-quote" id="headerQuote">"خير الدعاء دعاء يوم عرفة" — النبي محمد ﷺ</span>
+      <p id="todayLabel" class="today-label muted small"></p>
+    </div>
+    <div class="header-actions">
+      <button class="icon-button" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+      <button class="icon-button" id="shareAppBtn" aria-label="Share app">↗</button>
+    </div>
+  </header>
+
+  <div class="sticky-countdown" id="stickyCountdown">
+    <span class="sticky-phase" id="stickyPhase">Arafah starts soon</span>
+    <strong class="sticky-time" id="stickyTime">--:--:--</strong>
+  </div>
+
+  <main>
+
+    <!-- ─── HOME SCREEN ─── -->
+    <section class="screen active" id="homeScreen">
+
+      <!-- Hero Card -->
+      <section class="hero-card" id="heroCard">
+        <div class="hero-copy">
+          <span class="hero-pill">
+            <span class="hero-pill-dot"></span>
+            <span id="phasePill">Get ready</span>
+          </span>
+          <h2 id="countdownTitle">Time left for Arafah Day</h2>
+          <p id="countdownSubtitle">Prepare your heart, your dua list, and your intention.</p>
+        </div>
+        <div class="countdown-grid" aria-label="Countdown">
+          <div class="countdown-cell"><strong id="cdDays">00</strong><span id="cdDaysLabel">days</span></div>
+          <div class="countdown-cell"><strong id="cdHours">00</strong><span id="cdHoursLabel">hours</span></div>
+          <div class="countdown-cell"><strong id="cdMinutes">00</strong><span id="cdMinutesLabel">min</span></div>
+          <div class="countdown-cell"><strong id="cdSeconds">00</strong><span id="cdSecondsLabel">sec</span></div>
+        </div>
+      </section>
+
+      <!-- Now Card -->
+      <article class="card now-card gold-glow" id="nowCard">
+        <div class="card-accent gold"></div>
+        <div class="now-icon-wrap"><span id="nowIcon">🌙</span></div>
+        <div class="now-body">
+          <span class="now-eyebrow" id="rightNowLabel">Right now</span>
+          <h3 class="now-title" id="nowTitle">Prepare your dua list</h3>
+          <p class="now-text" id="nowText"></p>
+          <button class="primary-button" id="nowActionBtn">Open suggested action</button>
+        </div>
+      </article>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <article class="stat-card">
+          <strong class="stat-value" id="statProgress">0%</strong>
+          <span class="stat-label" id="statChecklistLabel">Checklist</span>
+        </article>
+        <article class="stat-card">
+          <strong class="stat-value" id="statDhikr">0</strong>
+          <span class="stat-label" id="statDhikrLabel">Dhikr</span>
+        </article>
+        <article class="stat-card">
+          <strong class="stat-value" id="statDuas">0</strong>
+          <span class="stat-label" id="statDuasLabel">Duas said</span>
+        </article>
       </div>
-      <div style="display:flex;gap:8px;padding-top:10px">
-        <button class="icon-btn" onclick="toggleTheme()" aria-label="Toggle dark mode">
-          <svg id="theme-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
-        <button class="icon-btn" onclick="showModal('modal-quote')" aria-label="Inspiration">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </button>
+
+      <!-- Quick Path -->
+      <div class="section-head">
+        <div class="section-head-inner">
+          <p class="eyebrow" id="quickPathLabel">Quick path</p>
+          <h3 id="whatNeedTitle">What do you need?</h3>
+        </div>
+        <span class="swipe-hint" id="swipeHint">Swipe →</span>
       </div>
-    </div>
-  </div>
 
-  <!-- Countdown Card -->
-  <div class="countdown-card" id="countdown-card">
-    <div class="countdown-label" id="countdown-label">Time Until Arafah Ends</div>
-    <div class="countdown-nums" id="countdown-nums">
-      <div class="countdown-num"><div class="countdown-big" id="cd-h">08</div><div class="countdown-unit" id="cd-h-label">hrs</div></div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-num"><div class="countdown-big" id="cd-m">42</div><div class="countdown-unit" id="cd-m-label">min</div></div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-num"><div class="countdown-big" id="cd-s">17</div><div class="countdown-unit" id="cd-s-label">sec</div></div>
-    </div>
-    <div style="font-size:12px;opacity:0.7" id="cd-sub">Every second is priceless today</div>
-  </div>
+      <div class="scroll-fade">
+        <div class="quick-scroll" role="list">
+          <button class="quick-card" data-go="dhikr" role="listitem">
+            <span class="quick-card-icon">📿</span>
+            <strong id="quickDhikrTitle">Start dhikr</strong>
+            <small id="quickDhikrSub">Count with focus</small>
+          </button>
+          <button class="quick-card" data-go="duas" role="listitem">
+            <span class="quick-card-icon">🤲</span>
+            <strong id="quickDuaTitle">Dua mode</strong>
+            <small id="quickDuaSub">Full-screen duas</small>
+          </button>
+          <button class="quick-card" data-go="checklist" role="listitem">
+            <span class="quick-card-icon">📋</span>
+            <strong id="quickPlanTitle">Worship plan</strong>
+            <small id="quickPlanSub">Essential tasks</small>
+          </button>
+          <button class="quick-card" data-go="more" role="listitem">
+            <span class="quick-card-icon">🗓</span>
+            <strong id="quickTimelineTitle">Timeline</strong>
+            <small id="quickTimelineSub">Best moments</small>
+          </button>
+          <button class="quick-card" id="rescueQuickBtn" role="listitem">
+            <span class="quick-card-icon">🆘</span>
+            <strong id="quickRescueTitle">Rescue plan</strong>
+            <small id="quickRescueSub">If time is short</small>
+          </button>
+        </div>
+      </div>
 
-  <!-- Stats Row -->
-  <div class="stat-row">
-    <div class="stat-box">
-      <div class="stat-num" id="stat-dhikr">0</div>
-      <div class="stat-label" id="stat-dhikr-label">Dhikr</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num" id="stat-tasks">0%</div>
-      <div class="stat-label" id="stat-tasks-label">Done</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num" id="stat-duas">0</div>
-      <div class="stat-label" id="stat-duas-label">Duas</div>
-    </div>
-  </div>
+      <!-- Intention Card -->
+      <article class="card intention-card">
+        <div class="card-accent"></div>
+        <p class="eyebrow" id="intentionLabel">Intention of the day</p>
+        <h3 id="intentionTitle">Make it personal</h3>
+        <textarea id="intentionInput" rows="3" placeholder="Today I intend to seek forgiveness..."></textarea>
+        <button class="primary-button" id="saveIntentionBtn">Save intention</button>
+      </article>
 
-  <!-- Quick Actions -->
-  <div class="section-title" id="qa-label">QUICK ACTIONS</div>
-  <div class="scroll-x" style="padding-bottom:8px">
-    <div class="quick-action" onclick="goTo('screen-dhikr')">
-      <div class="quick-action-icon" style="background:linear-gradient(135deg,#1a5c3a,#2a7a50)">🤲</div>
-      <div class="quick-action-label" id="qa-dhikr">Dhikr</div>
-    </div>
-    <div class="quick-action" onclick="goTo('screen-duas')">
-      <div class="quick-action-icon" style="background:linear-gradient(135deg,#b8923a,#d4a853)">📿</div>
-      <div class="quick-action-label" id="qa-duas">Duas</div>
-    </div>
-    <div class="quick-action" onclick="goTo('screen-checklist')">
-      <div class="quick-action-icon" style="background:linear-gradient(135deg,#2a4a7a,#3a5a9a)">✅</div>
-      <div class="quick-action-label" id="qa-check">Worship</div>
-    </div>
-    <div class="quick-action" onclick="goTo('screen-timeline')">
-      <div class="quick-action-icon" style="background:linear-gradient(135deg,#6a3a8a,#8a5aaa)">⏳</div>
-      <div class="quick-action-label" id="qa-timeline">Timeline</div>
-    </div>
-    <div class="quick-action" onclick="shareApp()">
-      <div class="quick-action-icon" style="background:linear-gradient(135deg,#4a6a2a,#5a8a3a)">🌟</div>
-      <div class="quick-action-label" id="qa-share">Share</div>
-    </div>
-  </div>
-
-  <!-- Dua of Arafah highlight -->
-  <div class="section-title" id="dua-highlight-label">DUA OF THE DAY</div>
-  <div style="padding:0 20px" onclick="goTo('screen-duas')">
-    <div class="dua-card card-gold">
-      <div class="dua-arabic">لَا إِلَٰهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ</div>
-      <div class="dua-transliteration">Lā ilāha illallāhu waḥdahū lā sharīka lah...</div>
-      <div class="dua-translation" id="dua-day-translation">There is none worthy of worship except Allah alone, with no partner...</div>
-      <div class="dua-source">BEST DUA OF ARAFAH · TAP FOR MORE</div>
-    </div>
-  </div>
-
-  <!-- Today's Worship Progress -->
-  <div class="section-title" id="progress-label">TODAY'S PROGRESS</div>
-  <div style="padding:0 20px;margin-bottom:16px">
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between">
+      <!-- Progress Card -->
+      <article class="card progress-card">
+        <div class="progress-ring" id="progressRing" style="--progress:0">
+          <span class="progress-ring-text" id="progressRingText">0%</span>
+        </div>
         <div>
-          <div style="font-size:16px;font-weight:700;color:var(--text)" id="progress-title">Worship Score</div>
-          <div style="font-size:13px;color:var(--text3);margin-top:4px" id="progress-sub">Keep going, you're doing great!</div>
+          <p class="eyebrow" id="worshipProgressLabel">Worship progress</p>
+          <p class="progress-message" id="progressMessage">Start small. One sincere action is enough.</p>
+          <p class="progress-hint" id="progressHint">The goal is not perfection. The goal is a sincere heart.</p>
         </div>
-        <div class="progress-ring-wrap">
-          <svg width="72" height="72" viewBox="0 0 72 72">
-            <circle class="progress-ring-bg" cx="36" cy="36" r="28" stroke-width="6"/>
-            <circle class="progress-ring-fill" id="progress-ring" cx="36" cy="36" r="28" stroke-width="6" stroke-dasharray="175.9" stroke-dashoffset="175.9"/>
-          </svg>
-          <div class="progress-ring-text">
-            <div style="font-size:16px;font-weight:700;color:var(--emerald)" id="progress-pct">0%</div>
+      </article>
+
+      <!-- Rescue Card -->
+      <article class="card rescue-card" id="rescueCard">
+        <p class="eyebrow" id="rescueLabel">Arafah rescue plan</p>
+        <h3 id="rescueTitle">I've lost time… what now?</h3>
+        <p class="muted small" id="rescueText">Don't give up. A few sincere minutes can be very precious.</p>
+        <ul class="mini-list" id="rescueList"></ul>
+        <button class="gold-button" id="rescueButton" data-go="duas">Open dua mode</button>
+      </article>
+
+      <!-- Share Card -->
+      <article class="card share-card">
+        <p class="eyebrow" id="shareGoodLabel">Share the good</p>
+        <h3 id="shareGoodTitle">Remind someone today</h3>
+        <p class="muted small" id="shareGoodText">Send a gentle reminder with the app link, or share your progress.</p>
+        <div class="button-row">
+          <button class="soft-button" id="shareReminderBtn">Copy reminder</button>
+          <button class="soft-button" id="shareProgressBtn">Share progress</button>
+        </div>
+      </article>
+
+      <p class="source-note" id="sourceNote">Countdown uses Maghrib time in Tunis: May 25, 2026 19:26 → May 26, 2026 19:27.</p>
+    </section>
+
+    <!-- ─── DHIKR SCREEN ─── -->
+    <section class="screen" id="dhikrScreen">
+      <div class="page-title">
+        <p class="eyebrow" id="dhikrEyebrow">Dhikr counter</p>
+        <h2 id="dhikrTitle">Small words. Great reward.</h2>
+      </div>
+
+      <div class="dhikr-stage">
+        <div class="chip-row" id="dhikrChips" style="justify-content:center"></div>
+
+        <div class="dhikr-central">
+          <p class="dhikr-arabic-display arabic large" id="dhikrArabic">سُبْحَانَ اللهِ</p>
+          <p class="dhikr-meaning" id="dhikrMeaning">Glory be to Allah</p>
+
+          <button class="dhikr-button" id="dhikrButton" aria-label="Count dhikr">
+            <span class="dhikr-count-display" id="dhikrCount">0</span>
+            <span class="dhikr-tap-label" id="tapLabel">tap</span>
+          </button>
+
+          <div class="target-row">
+            <button class="tiny-button" data-target="33" id="target33Btn">Target 33</button>
+            <button class="tiny-button" data-target="100" id="target100Btn">Target 100</button>
+            <button class="tiny-button" data-target="1000" id="target1000Btn">Target 1000</button>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Achievements strip -->
-  <div class="section-title" id="ach-label">ACHIEVEMENTS</div>
-  <div class="scroll-x" style="padding-bottom:12px">
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;min-width:140px;text-align:center;box-shadow:var(--shadow)" id="ach-0">
-      <div style="font-size:30px;margin-bottom:6px">🌅</div>
-      <div style="font-size:12px;font-weight:700;color:var(--text)" id="ach-0-name">Dawn Seeker</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:2px" id="ach-0-desc">Start your day early</div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;min-width:140px;text-align:center;box-shadow:var(--shadow);opacity:0.5;filter:grayscale(0.6)" id="ach-1">
-      <div style="font-size:30px;margin-bottom:6px">📿</div>
-      <div style="font-size:12px;font-weight:700;color:var(--text)" id="ach-1-name">100 Dhikr</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:2px" id="ach-1-desc">Reach 100 remembrances</div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;min-width:140px;text-align:center;box-shadow:var(--shadow);opacity:0.5;filter:grayscale(0.6)" id="ach-2">
-      <div style="font-size:30px;margin-bottom:6px">🤲</div>
-      <div style="font-size:12px;font-weight:700;color:var(--text)" id="ach-2-name">Dua Master</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:2px" id="ach-2-desc">Read 5 duas today</div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;min-width:140px;text-align:center;box-shadow:var(--shadow);opacity:0.5;filter:grayscale(0.6)" id="ach-3">
-      <div style="font-size:30px;margin-bottom:6px">⭐</div>
-      <div style="font-size:12px;font-weight:700;color:var(--text)" id="ach-3-name">Arafah Champion</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:2px" id="ach-3-desc">Complete all tasks</div>
-    </div>
-  </div>
-
-  <div class="pb-nav" style="height:20px"></div>
-</div>
-
-<!-- ======================== DHIKR SCREEN ======================== -->
-<div id="screen-dhikr" class="screen">
-  <div class="top-bar">
-    <button class="icon-btn" onclick="goTo('screen-home')" aria-label="Back">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <div class="top-bar-title" id="dhikr-screen-title">Dhikr Counter</div>
-    <button class="icon-btn" onclick="resetDhikr()" aria-label="Reset">
-      <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.33"/></svg>
-    </button>
-  </div>
-  <div class="dhikr-screen-inner">
-    <!-- Dhikr selector -->
-    <div class="dhikr-selector" id="dhikr-selector"></div>
-    <!-- Big counter button -->
-    <button class="dhikr-btn" id="dhikr-btn" onclick="countDhikr()" aria-label="Count dhikr">
-      <div class="dhikr-count" id="dhikr-count-display">0</div>
-      <div class="dhikr-label" id="dhikr-current-label">سُبْحَانَ اللهِ</div>
-    </button>
-    <!-- Progress -->
-    <div class="dhikr-target" id="dhikr-target-text">Target: 33</div>
-    <div class="dhikr-progress-bar">
-      <div class="dhikr-progress-fill" id="dhikr-prog-fill" style="width:0%"></div>
-    </div>
-    <!-- Current dhikr text -->
-    <div style="margin-top:28px;text-align:center;padding:0 20px;max-width:340px">
-      <div style="font-family:'Scheherazade New',serif;font-size:22px;color:var(--emerald);margin-bottom:8px;line-height:1.8;direction:rtl" id="dhikr-arabic-display">سُبْحَانَ اللهِ</div>
-      <div style="font-size:13px;color:var(--text3);font-style:italic;margin-bottom:4px" id="dhikr-translit">SubhanAllah</div>
-      <div style="font-size:13px;color:var(--text2)" id="dhikr-meaning-display">Glory be to Allah</div>
-    </div>
-    <!-- Total today -->
-    <div style="margin-top:24px;padding:14px 28px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);text-align:center;box-shadow:var(--shadow)">
-      <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase" id="total-dhikr-label">Total Today</div>
-      <div style="font-family:'Amiri',serif;font-size:36px;font-weight:700;color:var(--gold)" id="total-dhikr-num">0</div>
-    </div>
-  </div>
-</div>
-
-<!-- ======================== DUAS SCREEN ======================== -->
-<div id="screen-duas" class="screen">
-  <div class="top-bar">
-    <button class="icon-btn" onclick="goTo('screen-home')" aria-label="Back">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <div class="top-bar-title" id="duas-screen-title">Duas</div>
-    <div style="width:40px"></div>
-  </div>
-  <div style="padding:0 20px 100px" id="duas-container"></div>
-</div>
-
-<!-- ======================== CHECKLIST SCREEN ======================== -->
-<div id="screen-checklist" class="screen">
-  <div class="top-bar">
-    <button class="icon-btn" onclick="goTo('screen-home')" aria-label="Back">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <div class="top-bar-title" id="checklist-screen-title">Worship Plan</div>
-    <div style="width:40px"></div>
-  </div>
-  <div style="padding:0 20px 100px">
-    <!-- Progress bar -->
-    <div class="card" style="margin-bottom:20px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <div style="font-size:14px;font-weight:700;color:var(--text)" id="checklist-progress-text">0 of 10 completed</div>
-        <div style="font-size:14px;font-weight:700;color:var(--emerald)" id="checklist-pct">0%</div>
-      </div>
-      <div style="height:8px;background:var(--bg3);border-radius:4px;overflow:hidden">
-        <div id="checklist-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--emerald) 0%,var(--emerald3) 100%);border-radius:4px;transition:width 0.6s cubic-bezier(0.4,0,0.2,1)"></div>
-      </div>
-    </div>
-    <div id="checklist-container"></div>
-  </div>
-</div>
-
-<!-- ======================== TIMELINE SCREEN ======================== -->
-<div id="screen-timeline" class="screen">
-  <div class="top-bar">
-    <button class="icon-btn" onclick="goTo('screen-home')" aria-label="Back">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <div class="top-bar-title" id="timeline-screen-title">Best Times</div>
-    <div style="width:40px"></div>
-  </div>
-  <div style="padding:0 20px 100px" id="timeline-container"></div>
-</div>
-
-<!-- ======================== SETTINGS SCREEN ======================== -->
-<div id="screen-settings" class="screen">
-  <div class="top-bar">
-    <div class="top-bar-title" id="settings-screen-title">Settings</div>
-    <div style="width:40px"></div>
-  </div>
-  <div class="pb-nav" style="padding-top:8px">
-    <div class="settings-section">
-      <div class="settings-label" id="settings-label-app">App</div>
-      <div class="settings-row">
-        <div class="settings-row-left">
-          <div class="settings-row-icon" style="background:rgba(26,92,58,0.1)">🌙</div>
-          <div><div class="settings-row-text" id="darkmode-label">Dark Mode</div><div class="settings-row-sub" id="darkmode-sub">Easy on eyes at night</div></div>
-        </div>
-        <button class="toggle" id="toggle-dark" onclick="toggleThemeToggle()" aria-label="Toggle dark mode"></button>
-      </div>
-      <div class="settings-row">
-        <div class="settings-row-left">
-          <div class="settings-row-icon" style="background:rgba(184,146,58,0.1)">🌍</div>
-          <div>
-            <div class="settings-row-text" id="lang-label-setting">Language</div>
-            <div class="settings-row-sub" id="lang-current-label">English</div>
+          <div class="target-line">
+            <p class="small muted" id="dhikrTargetText"></p>
+            <div class="mini-progress"><span class="mini-progress-fill" id="dhikrProgressFill"></span></div>
           </div>
+
+          <button class="soft-button" id="resetDhikrBtn" style="margin-top:4px">Reset</button>
         </div>
-        <button class="btn btn-outline" style="font-size:12px;padding:7px 14px" onclick="showModal('modal-lang')" id="lang-change-btn">Change</button>
       </div>
-    </div>
-    <div class="settings-section">
-      <div class="settings-label" id="settings-label-data">Data</div>
-      <div class="settings-row">
-        <div class="settings-row-left">
-          <div class="settings-row-icon" style="background:rgba(220,50,50,0.1)">🗑️</div>
-          <div><div class="settings-row-text" id="reset-label">Reset Progress</div><div class="settings-row-sub" id="reset-sub">Clear all today's data</div></div>
+      <p class="source-note" id="sourceNote2"></p>
+    </section>
+
+    <!-- ─── DUAS SCREEN ─── -->
+    <section class="screen" id="duasScreen">
+      <div class="page-title">
+        <p class="eyebrow" id="duasEyebrow">Duas &amp; personal list</p>
+        <h2 id="duasTitle">Ask as if anything is possible.</h2>
+      </div>
+
+      <!-- Dua Mode Card -->
+      <article class="card">
+        <div class="card-accent gold"></div>
+        <div class="dua-mode-card">
+          <div class="dua-mode-info">
+            <span class="dua-mode-eyebrow" id="duaModeSmall">No distraction</span>
+            <strong id="duaModeTitle">Dua Mode</strong>
+            <p id="duaModeDesc">Full-screen cards for your duas, one by one.</p>
+          </div>
+          <button class="gold-button" id="openDuaModeBtn">Enter dua mode</button>
         </div>
-        <button class="btn btn-outline" style="font-size:12px;padding:7px 14px;border-color:rgba(200,60,60,0.4);color:#c83c3c" onclick="confirmReset()" id="reset-btn">Reset</button>
+      </article>
+
+      <!-- Personal Dua Builder -->
+      <article class="card personal-dua-builder">
+        <p class="eyebrow" id="builderLabel">Personal dua builder</p>
+        <h3 id="builderTitle">Write what your heart needs</h3>
+        <textarea id="personalDuaInput" rows="3" placeholder="Ya Allah, I ask You for..."></textarea>
+        <div id="duaPrompts"></div>
+        <button class="primary-button" id="savePersonalDuaBtn">Save personal dua</button>
+      </article>
+
+      <!-- Personal Duas List -->
+      <div id="personalDuasList"></div>
+
+      <!-- Category Filter -->
+      <div class="sticky-chips">
+        <div class="chip-row" id="duaCategoryChips"></div>
       </div>
-    </div>
-    <div class="settings-section">
-      <div class="settings-label" id="settings-label-share">Share</div>
-      <div style="padding:0">
-        <button class="btn btn-primary btn-full" onclick="shareApp()" style="margin-bottom:10px">
-          <span id="share-btn-text">Share Arafah Companion 🌙</span>
-        </button>
-        <button class="btn btn-gold btn-full" onclick="shareProgress()">
-          <span id="share-progress-btn">Share My Progress ✨</span>
-        </button>
+
+      <!-- Search -->
+      <div class="search-bar">
+        <input type="search" id="duaSearch" placeholder="Search duas...">
       </div>
-    </div>
-    <!-- About -->
-    <div style="text-align:center;padding:24px 20px">
-      <div style="font-family:'Scheherazade New',serif;font-size:20px;color:var(--emerald);margin-bottom:6px">يَوْمُ عَرَفَة</div>
-      <div style="font-size:12px;color:var(--text3)" id="version-text">Arafah Companion v1.0</div>
-      <div style="font-size:11px;color:var(--text3);margin-top:4px" id="made-with">Made with ❤️ for the Ummah</div>
+
+      <!-- Duas List -->
+      <div id="duasList"></div>
+    </section>
+
+    <!-- ─── CHECKLIST SCREEN ─── -->
+    <section class="screen" id="checklistScreen">
+      <div class="page-title">
+        <p class="eyebrow" id="checklistEyebrow">Worship plan</p>
+        <h2 id="checklistTitle">Choose progress, not pressure.</h2>
+      </div>
+
+      <div class="sticky-chips">
+        <div class="chip-row" id="checklistTabs">
+          <button class="chip active" data-tab="essential" id="tabEssential">Essential</button>
+          <button class="chip" data-tab="recommended" id="tabRecommended">Recommended</button>
+          <button class="chip" data-tab="bonus" id="tabBonus">Bonus</button>
+          <button class="chip" data-tab="custom" id="tabCustom">My tasks</button>
+        </div>
+      </div>
+
+      <article class="card custom-task-card" id="customTaskCard">
+        <p class="eyebrow" id="customTaskLabel">Add your own task</p>
+        <div class="inline-form">
+          <input type="text" id="customTaskInput" placeholder="e.g. Call my parents"/>
+          <button class="primary-button" id="addCustomTaskBtn">Add</button>
+        </div>
+      </article>
+
+      <div id="checklistList"></div>
+    </section>
+
+    <!-- ─── MORE SCREEN (Timeline + Settings) ─── -->
+    <section class="screen" id="moreScreen">
+      <div class="page-title">
+        <p class="eyebrow">More</p>
+        <h2>Timeline &amp; Settings</h2>
+      </div>
+
+      <div class="more-tabs">
+        <button class="more-tab active" data-more="timeline">🗓 Timeline</button>
+        <button class="more-tab" data-more="settings">⚙️ Settings</button>
+      </div>
+
+      <!-- Timeline Section -->
+      <div class="more-section active" id="moreTimeline">
+        <div class="page-title" style="margin-top:4px">
+          <p class="eyebrow" id="timelineEyebrow">Best moments</p>
+          <h2 id="timelineTitle">Your Arafah journey.</h2>
+        </div>
+        <div class="timeline-list" id="timelineList"></div>
+      </div>
+
+      <!-- Settings Section -->
+      <div class="more-section" id="moreSettings">
+        <div class="page-title" style="margin-top:4px">
+          <p class="eyebrow" id="settingsEyebrow">Settings</p>
+          <h2 id="settingsTitle">Keep it simple.</h2>
+        </div>
+
+        <article class="card" style="padding:8px 16px">
+          <p class="settings-section-label">Display</p>
+          <button class="settings-row" id="toggleThemeRow">
+            <span class="settings-row-label"><span>🌙</span><span id="darkModeLabel">Dark mode</span></span>
+            <span class="settings-row-value" id="themeState">Off</span>
+          </button>
+          <hr style="border:none;border-top:1px solid var(--line);margin:2px 8px">
+          <div class="settings-row settings-language-row">
+            <span class="settings-row-label"><span>🌍</span><span id="languageSettingsLabel">Language</span></span>
+            <span class="settings-row-value" id="currentLanguageLabel">English</span>
+          </div>
+          <div class="language-settings-grid" id="settingsLangGrid">
+            <button class="language-mini active" data-lang="en">English</button>
+            <button class="language-mini" data-lang="fr">Français</button>
+            <button class="language-mini" data-lang="ar">العربية</button>
+          </div>
+        </article>
+
+        <article class="card" style="padding:8px 16px">
+          <p class="settings-section-label" id="reminderSettingsLabel">Reminder</p>
+          <div class="protect-card card">
+            <h4 id="protectTitle">Protect your Arafah</h4>
+            <p id="protectText">Put your phone on focus mode. Use this app only for dhikr, duas, and your plan.</p>
+          </div>
+        </article>
+
+        <article class="card" style="padding:8px 16px">
+          <p class="settings-section-label">Data</p>
+          <button class="settings-row" id="exportDataBtn">
+            <span class="settings-row-label"><span>📦</span><span id="exportLabel">Export my data</span></span>
+            <span class="settings-row-value" id="copyLabel">Copy</span>
+          </button>
+          <hr style="border:none;border-top:1px solid var(--line);margin:2px 8px">
+          <button class="settings-row danger-text" id="resetAllBtn">
+            <span class="settings-row-label"><span>🗑️</span><span id="resetAllLabel">Reset all</span></span>
+            <span class="settings-row-value" id="resetLabel">Reset</span>
+          </button>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Dua Mode Overlay -->
+  <div class="dua-mode-overlay" id="duaModeOverlay" aria-hidden="true" role="dialog">
+    <button class="close-mode" id="closeDuaModeBtn" aria-label="Close">✕</button>
+    <p class="dua-mode-counter" id="duaModeCounter">Dua 1/20</p>
+    <div class="dua-mode-card-full">
+      <p class="arabic xlarge" id="duaModeArabic"></p>
+      <p class="dua-mode-text" id="duaModeText"></p>
+      <p class="source-note" id="duaModeSource"></p>
+      <div class="dua-mode-nav">
+        <button id="prevDuaModeBtn">← Previous</button>
+        <button id="nextDuaModeBtn">Next dua →</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ======================== BOTTOM NAV ======================== -->
-<nav class="bottom-nav" id="main-nav" style="display:none">
-  <button class="nav-btn active" id="nav-home" onclick="goTo('screen-home')">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span id="nav-home-label">Home</span>
-  </button>
-  <button class="nav-btn" id="nav-dhikr" onclick="goTo('screen-dhikr')">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
-    <span id="nav-dhikr-label">Dhikr</span>
-  </button>
-  <button class="nav-btn" id="nav-duas" onclick="goTo('screen-duas')">
-    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    <span id="nav-duas-label">Duas</span>
-  </button>
-  <button class="nav-btn" id="nav-checklist" onclick="goTo('screen-checklist')">
-    <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-    <span id="nav-check-label">Worship</span>
-  </button>
-  <button class="nav-btn" id="nav-settings" onclick="goTo('screen-settings')">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    <span id="nav-settings-label">Settings</span>
-  </button>
-</nav>
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-go="home">
+      <span>🏠</span>
+      <span class="nav-label" id="navHome">Home</span>
+    </button>
+    <button class="nav-button" data-go="dhikr">
+      <span>📿</span>
+      <span class="nav-label" id="navDhikr">Dhikr</span>
+    </button>
+    <button class="nav-button" data-go="duas">
+      <span>🤲</span>
+      <span class="nav-label" id="navDuas">Duas</span>
+    </button>
+    <button class="nav-button" data-go="checklist">
+      <span>📋</span>
+      <span class="nav-label" id="navPlan">Plan</span>
+    </button>
+    <button class="nav-button" data-go="more">
+      <span>☰</span>
+      <span class="nav-label" id="navMore">More</span>
+    </button>
+  </nav>
 
-<!-- ======================== MODALS ======================== -->
-<div class="modal-overlay" id="modal-quote" onclick="closeModalBg(event,'modal-quote')">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div style="text-align:center;padding:8px 0 20px">
-      <div style="font-size:36px;margin-bottom:12px">✨</div>
-      <div class="modal-title" style="text-align:center" id="modal-quote-title">Inspiration</div>
-      <div style="font-family:'Scheherazade New',serif;font-size:22px;color:var(--emerald);line-height:1.8;margin-bottom:16px;direction:rtl">
-        مَا مِنْ يَوْمٍ أَكْثَرُ مِنْ أَنْ يُعْتِقَ اللهُ فِيهِ عَبْدًا مِنَ النَّارِ مِنْ يَوْمِ عَرَفَةَ
-      </div>
-      <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px" id="modal-quote-text">
-        "There is no day on which Allah frees more people from the Fire than the Day of Arafah." — Sahih Muslim
-      </div>
-      <button class="btn btn-primary btn-full" onclick="closeModal('modal-quote')">
-        <span id="modal-close-btn">Let's worship! 🤲</span>
-      </button>
-    </div>
-  </div>
-</div>
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<div class="modal-overlay" id="modal-lang" onclick="closeModalBg(event,'modal-lang')">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="modal-lang-title">Language</div>
-    <div class="lang-grid">
-      <button class="lang-btn" onclick="changeLang('en')" id="modal-lang-en"><span class="flag">🇬🇧</span><span>English</span></button>
-      <button class="lang-btn" onclick="changeLang('ar')" id="modal-lang-ar"><span class="flag">🇸🇦</span><span>العربية</span></button>
-      <button class="lang-btn" onclick="changeLang('fr')" id="modal-lang-fr"><span class="flag">🇫🇷</span><span>Français</span></button>
-    </div>
-  </div>
-</div>
-
-<!-- Toast -->
-<div class="toast" id="toast"></div>
-
-<script>
-// ============================================================
-// DATA
-// ============================================================
-const TRANSLATIONS = {
-  en:{
-    appName:"Arafah Companion",
-    greeting:"BLESSED DAY",
-    homeTitle:"Day of Arafah",
-    countdownLabel:"Time Remaining Today",
-    countdownSub:"Every second is priceless today",
-    hrs:"hrs",min:"min",sec:"sec",
-    qaLabel:"QUICK ACTIONS",
-    qaDhikr:"Dhikr",qaDuas:"Duas",qaCheck:"Worship",qaTimeline:"Timeline",qaShare:"Share",
-    duaHighlight:"DUA OF THE DAY",
-    duaDayTranslation:"There is none worthy of worship except Allah alone, with no partner or associate; His is the dominion, His is all praise, and He has power over all things.",
-    progressLabel:"TODAY'S PROGRESS",
-    progressTitle:"Worship Score",
-    progressSub:"Keep going, you're doing amazing!",
-    achLabel:"ACHIEVEMENTS",
-    ach0:"Dawn Seeker",ach0d:"Start your day early",
-    ach1:"100 Dhikr",ach1d:"Reach 100 remembrances",
-    ach2:"Dua Master",ach2d:"Read 5 duas today",
-    ach3:"Arafah Champion",ach3d:"Complete all tasks",
-    dhikrTitle:"Dhikr Counter",totalToday:"Total Today",
-    targetText:"Target:",
-    duasTitle:"Duas of Arafah",
-    checkTitle:"Worship Plan",
-    timelineTitle:"Best Times",
-    settingsTitle:"Settings",
-    darkmode:"Dark Mode",darkmodeS:"Easy on eyes at night",
-    langSetting:"Language",langCurrent:"English",
-    resetLabel:"Reset Progress",resetSub:"Clear all today's data",
-    resetBtn:"Reset",shareBtn:"Share Arafah Companion 🌙",shareProgress:"Share My Progress ✨",
-    versionText:"Arafah Companion v1.0",madeWith:"Made with ❤️ for the Ummah",
-    langChange:"Change",
-    navHome:"Home",navDhikr:"Dhikr",navDuas:"Duas",navCheck:"Worship",navSettings:"Settings",
-    toastDhikr:"Masha'Allah! ✨",toastTarget:"Target reached! 🎉",toastReset:"Counter reset",
-    toastShared:"Link copied! Share your dua 🌙",toastProgressShared:"Copied! Share with friends 🤲",
-    onboardDesc:"Your spiritual guide for the best day of the year",
-    hadithSub:'"The best day on which the sun rises is the Day of Arafah." — Prophet Muhammad ﷺ',
-    startBtn:"Begin My Day 🌙",
-    modalInspTitle:"Inspiration",modalInspClose:"Let's worship! 🤲",
-    modalInspText:'"There is no day on which Allah frees more people from the Fire than the Day of Arafah." — Sahih Muslim',
-    modalLangTitle:"Language",
-    statDhikr:"Dhikr",statDone:"Done",statDuas:"Duas",
-    checkProgress:"of",checkCompleted:"completed",
-    settingsAppLabel:"App",settingsDataLabel:"Data",settingsShareLabel:"Share",
-    confirmReset:"Are you sure? This will clear all progress.",resetDone:"Progress reset ✨",
-  },
-  ar:{
-    appName:"رفيق عرفة",
-    greeting:"يَوْمٌ مُبَارَك",
-    homeTitle:"يوم عرفة",
-    countdownLabel:"الوقت المتبقي",
-    countdownSub:"كل ثانية ثمينة اليوم",
-    hrs:"ساعة",min:"دقيقة",sec:"ثانية",
-    qaLabel:"إجراءات سريعة",
-    qaDhikr:"ذكر",qaDuas:"دعاء",qaCheck:"عبادة",qaTimeline:"الجدول",qaShare:"مشاركة",
-    duaHighlight:"دعاء اليوم",
-    duaDayTranslation:"لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
-    progressLabel:"تقدم اليوم",
-    progressTitle:"نقاط العبادة",
-    progressSub:"استمر، أنت رائع!",
-    achLabel:"الإنجازات",
-    ach0:"باكر الفجر",ach0d:"ابدأ يومك مبكراً",
-    ach1:"مئة ذكر",ach1d:"أوصل إلى ١٠٠ ذكر",
-    ach2:"سيد الدعاء",ach2d:"اقرأ ٥ أدعية اليوم",
-    ach3:"بطل عرفة",ach3d:"أكمل جميع المهام",
-    dhikrTitle:"عداد الذكر",totalToday:"مجموع اليوم",
-    targetText:"الهدف:",
-    duasTitle:"أدعية عرفة",
-    checkTitle:"خطة العبادة",
-    timelineTitle:"أفضل الأوقات",
-    settingsTitle:"الإعدادات",
-    darkmode:"الوضع الليلي",darkmodeS:"مريح للعينين ليلاً",
-    langSetting:"اللغة",langCurrent:"العربية",
-    resetLabel:"إعادة الضبط",resetSub:"مسح بيانات اليوم",
-    resetBtn:"إعادة",shareBtn:"شارك رفيق عرفة 🌙",shareProgress:"شارك تقدمي ✨",
-    versionText:"رفيق عرفة الإصدار ١.٠",madeWith:"صُنع بـ ❤️ للأمة",
-    langChange:"تغيير",
-    navHome:"الرئيسية",navDhikr:"ذكر",navDuas:"دعاء",navCheck:"عبادة",navSettings:"إعدادات",
-    toastDhikr:"ما شاء الله! ✨",toastTarget:"وصلت للهدف! 🎉",toastReset:"تم إعادة العداد",
-    toastShared:"تم النسخ! شارك دعاءك 🌙",toastProgressShared:"تم النسخ! شارك مع الأصدقاء 🤲",
-    onboardDesc:"رفيقك الروحي في أفضل أيام العام",
-    hadithSub:'"خير يوم طلعت فيه الشمس يوم عرفة" — النبي محمد ﷺ',
-    startBtn:"ابدأ يومي 🌙",
-    modalInspTitle:"إلهام",modalInspClose:"لنتعبد! 🤲",
-    modalInspText:'"ما من يوم أكثر من أن يعتق الله فيه عبداً من النار من يوم عرفة" — صحيح مسلم',
-    modalLangTitle:"اللغة",
-    statDhikr:"ذكر",statDone:"مكتمل",statDuas:"دعاء",
-    checkProgress:"من",checkCompleted:"مكتملة",
-    settingsAppLabel:"التطبيق",settingsDataLabel:"البيانات",settingsShareLabel:"المشاركة",
-    confirmReset:"هل أنت متأكد؟ سيتم مسح كل التقدم.",resetDone:"تم إعادة الضبط ✨",
-  },
-  fr:{
-    appName:"Arafah Companion",
-    greeting:"JOUR BÉNI",
-    homeTitle:"Jour d'Arafah",
-    countdownLabel:"Temps restant aujourd'hui",
-    countdownSub:"Chaque seconde est précieuse",
-    hrs:"h",min:"min",sec:"sec",
-    qaLabel:"ACTIONS RAPIDES",
-    qaDhikr:"Dhikr",qaDuas:"Duas",qaCheck:"Adoration",qaTimeline:"Horaires",qaShare:"Partager",
-    duaHighlight:"DUA DU JOUR",
-    duaDayTranslation:"Il n'y a de divinité qu'Allah seul, sans associé; à Lui appartient le Royaume, à Lui toute louange, et Il est puissant sur toute chose.",
-    progressLabel:"PROGRÈS DU JOUR",
-    progressTitle:"Score d'adoration",
-    progressSub:"Continue, tu es formidable!",
-    achLabel:"ACCOMPLISSEMENTS",
-    ach0:"Chercheur de l'Aube",ach0d:"Commencez tôt votre journée",
-    ach1:"100 Dhikr",ach1d:"Atteignez 100 invocations",
-    ach2:"Maître des Duas",ach2d:"Lisez 5 duas aujourd'hui",
-    ach3:"Champion d'Arafah",ach3d:"Complétez toutes les tâches",
-    dhikrTitle:"Compteur de Dhikr",totalToday:"Total Aujourd'hui",
-    targetText:"Objectif:",
-    duasTitle:"Duas d'Arafah",
-    checkTitle:"Plan d'adoration",
-    timelineTitle:"Meilleurs Moments",
-    settingsTitle:"Paramètres",
-    darkmode:"Mode Sombre",darkmodeS:"Doux pour les yeux la nuit",
-    langSetting:"Langue",langCurrent:"Français",
-    resetLabel:"Réinitialiser",resetSub:"Effacer les données du jour",
-    resetBtn:"Réinitialiser",shareBtn:"Partager Arafah Companion 🌙",shareProgress:"Partager mes progrès ✨",
-    versionText:"Arafah Companion v1.0",madeWith:"Fait avec ❤️ pour l'Oumma",
-    langChange:"Changer",
-    navHome:"Accueil",navDhikr:"Dhikr",navDuas:"Duas",navCheck:"Adoration",navSettings:"Paramètres",
-    toastDhikr:"Masha'Allah! ✨",toastTarget:"Objectif atteint! 🎉",toastReset:"Compteur réinitialisé",
-    toastShared:"Lien copié! Partagez 🌙",toastProgressShared:"Copié! Partagez avec vos amis 🤲",
-    onboardDesc:"Votre guide spirituel pour le meilleur jour de l'année",
-    hadithSub:'"Le meilleur jour où le soleil se lève est le Jour d\'Arafah." — Prophète Muhammad ﷺ',
-    startBtn:"Commencer ma journée 🌙",
-    modalInspTitle:"Inspiration",modalInspClose:"Adorons Allah! 🤲",
-    modalInspText:'"Il n\'y a pas de jour où Allah libère plus de serviteurs du Feu que le jour d\'Arafah." — Sahih Muslim',
-    modalLangTitle:"Langue",
-    statDhikr:"Dhikr",statDone:"Fait",statDuas:"Duas",
-    checkProgress:"sur",checkCompleted:"complétées",
-    settingsAppLabel:"Application",settingsDataLabel:"Données",settingsShareLabel:"Partager",
-    confirmReset:"Êtes-vous sûr? Cela effacera tous les progrès.",resetDone:"Progrès réinitialisé ✨",
-  }
-};
-
-const DHIKR_LIST = [
-  {arabic:"سُبْحَانَ اللهِ",translit:"SubhanAllah",meaning:{en:"Glory be to Allah",ar:"سبحان الله",fr:"Gloire à Allah"},target:33},
-  {arabic:"الْحَمْدُ لِلَّهِ",translit:"Alhamdulillah",meaning:{en:"All praise is for Allah",ar:"الحمد لله",fr:"Louange à Allah"},target:33},
-  {arabic:"اللهُ أَكْبَر",translit:"Allahu Akbar",meaning:{en:"Allah is the Greatest",ar:"الله أكبر",fr:"Allah est le plus Grand"},target:34},
-  {arabic:"لَا إِلٰهَ إِلَّا اللهُ",translit:"La ilaha illAllah",meaning:{en:"There is no god but Allah",ar:"لا إله إلا الله",fr:"Il n'y a de dieu qu'Allah"},target:100},
-  {arabic:"أَسْتَغْفِرُ اللهَ",translit:"Astaghfirullah",meaning:{en:"I seek Allah's forgiveness",ar:"أستغفر الله",fr:"Je cherche le pardon d'Allah"},target:100},
-];
-
-const DUAS_DATA = [
-  {
-    arabic:"لَا إِلَٰهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِير",
-    translit:"Lā ilāha illallāhu waḥdahū lā sharīka lah, lahul mulku wa lahul ḥamdu wa huwa ʿalā kulli shayʾin qadīr",
-    translation:{en:"There is none worthy of worship except Allah alone, with no partner or associate. His is the dominion, His is all praise, and He is Powerful over everything.",ar:"لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",fr:"Il n'y a de divinité qu'Allah seul, sans associé; à Lui appartient le Royaume, à Lui toute louange, et Il est Puissant sur toute chose."},
-    source:"Best Dua of Arafah · Tirmidhi"
-  },
-  {
-    arabic:"اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
-    translit:"Allāhumma innaka ʿafuwwun karīmun tuḥibb ul-ʿafwa faʿfu ʿannī",
-    translation:{en:"O Allah, You are the Pardoning, the Generous, and You love pardon, so pardon me.",ar:"اللهم إنك عفو كريم تحب العفو فاعف عني.",fr:"Ô Allah, Tu es le Pardonneur, le Généreux, Tu aimes le pardon, alors pardonne-moi."},
-    source:"Dua of Laylatul Qadr · Ibn Majah"
-  },
-  {
-    arabic:"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّار",
-    translit:"Rabbanā ātinā fid-dunyā ḥasanatan wa fil-ākhirati ḥasanatan wa qinā ʿadhāban-nār",
-    translation:{en:"Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.",ar:"ربنا آتنا في الدنيا حسنة وفي الآخرة حسنة وقنا عذاب النار.",fr:"Notre Seigneur, accorde-nous le bien dans ce monde et le bien dans l'au-delà, et préserve-nous du châtiment du Feu."},
-    source:"Quran 2:201"
-  },
-  {
-    arabic:"اللَّهُمَّ اغْفِرْ لِي ذَنْبِي كُلَّهُ دِقَّهُ وَجِلَّهُ وَأَوَّلَهُ وَآخِرَهُ وَعَلَانِيَتَهُ وَسِرَّه",
-    translit:"Allāhummaghfir lī dhanbī kullahū diqqahū wa jillahū wa awwalahū wa ākhirahū wa ʿalāniyatahū wa sirrah",
-    translation:{en:"O Allah, forgive me all my sins, the small and the great, the first and the last, the open and the secret.",ar:"اللهم اغفر لي ذنبي كله دقه وجله وأوله وآخره وعلانيته وسره.",fr:"Ô Allah, pardonne-moi tous mes péchés, les petits et les grands, les premiers et les derniers, les publics et les secrets."},
-    source:"Sahih Muslim"
-  },
-  {
-    arabic:"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
-    translit:"Allāhumma innī asʾalukal-hudā wat-tuqā wal-ʿafāfa wal-ghinā",
-    translation:{en:"O Allah, I ask You for guidance, piety, chastity, and contentment.",ar:"اللهم إني أسألك الهدى والتقى والعفاف والغنى.",fr:"Ô Allah, je Te demande la guidance, la piété, la chasteté et la contentement."},
-    source:"Sahih Muslim"
-  },
-  {
-    arabic:"رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَاب",
-    translit:"Rabbighfir lī wa liwālidayya wa lil-muʾminīna yawma yaqūmul-ḥisāb",
-    translation:{en:"My Lord, forgive me and my parents and the believers on the Day when the account is established.",ar:"رب اغفر لي ولوالدي وللمؤمنين يوم يقوم الحساب.",fr:"Mon Seigneur, pardonne-moi ainsi qu'à mes parents et aux croyants le Jour où aura lieu le Jugement."},
-    source:"Quran 14:41"
-  }
-];
-
-const CHECKLIST_DATA = [
-  {id:"c1",emoji:"🕌",title:{en:"Pray Fajr on time",ar:"صلاة الفجر في وقتها",fr:"Prier Fajr à temps"},sub:{en:"Start the blessed day right",ar:"ابدأ اليوم المبارك صحيحاً",fr:"Commencez bien ce jour béni"}},
-  {id:"c2",emoji:"📖",title:{en:"Read Quran (1 Juz)",ar:"قراءة القرآن (جزء)",fr:"Lire le Coran (1 Juz)"},sub:{en:"Fill your heart with His words",ar:"امل قلبك بكلامه",fr:"Remplissez votre cœur de Ses mots"}},
-  {id:"c3",emoji:"🤲",title:{en:"Make personal dua",ar:"الدعاء الشخصي",fr:"Faire une dua personnelle"},sub:{en:"Ask Allah for everything you desire",ar:"اطلب من الله كل ما تتمنى",fr:"Demandez à Allah tout ce que vous désirez"}},
-  {id:"c4",emoji:"📿",title:{en:"100 Dhikr: SubhanAllah",ar:"١٠٠ ذكر: سبحان الله",fr:"100 Dhikr: SubhanAllah"},sub:{en:"Glorify Allah 100 times",ar:"سبح الله مئة مرة",fr:"Glorifiez Allah 100 fois"}},
-  {id:"c5",emoji:"🙏",title:{en:"100 Dhikr: Alhamdulillah",ar:"١٠٠ ذكر: الحمد لله",fr:"100 Dhikr: Alhamdulillah"},sub:{en:"Praise Allah 100 times",ar:"احمد الله مئة مرة",fr:"Louez Allah 100 fois"}},
-  {id:"c6",emoji:"☝️",title:{en:"100 Dhikr: Allahu Akbar",ar:"١٠٠ ذكر: الله أكبر",fr:"100 Dhikr: Allahu Akbar"},sub:{en:"Magnify Allah 100 times",ar:"كبّر الله مئة مرة",fr:"Magnifiez Allah 100 fois"}},
-  {id:"c7",emoji:"🌙",title:{en:"Pray Dhuhr & Asr combined",ar:"الجمع بين الظهر والعصر",fr:"Prier Dhuhr & Asr combinées"},sub:{en:"Follow the Sunnah of the day",ar:"اتبع سنة اليوم",fr:"Suivez la Sunnah du jour"}},
-  {id:"c8",emoji:"💝",title:{en:"Make dua for the Ummah",ar:"الدعاء للأمة الإسلامية",fr:"Faire dua pour l'Oumma"},sub:{en:"Remember your brothers and sisters",ar:"تذكر إخوانك وأخواتك",fr:"Pensez à vos frères et sœurs"}},
-  {id:"c9",emoji:"🍽️",title:{en:"Fast today (Sunnah)",ar:"الصيام (سنة)",fr:"Jeûner aujourd'hui (Sunna)"},sub:{en:"Expiation for 2 years of sins",ar:"تكفير ذنوب سنتين",fr:"Expiation de 2 ans de péchés"}},
-  {id:"c10",emoji:"⭐",title:{en:"Make Istighfar 100x",ar:"الاستغفار ١٠٠ مرة",fr:"Faire Istighfar 100x"},sub:{en:"Seek forgiveness abundantly",ar:"استغفر الله كثيراً",fr:"Demandez beaucoup pardon"}},
-];
-
-const TIMELINE_DATA = [
-  {time:{en:"Before Fajr",ar:"قبل الفجر",fr:"Avant Fajr"},title:{en:"Tahajjud Prayer",ar:"صلاة التهجد",fr:"Prière Tahajjud"},desc:{en:"Wake up early and perform the night prayer. A special time when duas are accepted.",ar:"استيقظ مبكراً وأدِّ صلاة الليل. وقت مميز تُقبل فيه الدعوات.",fr:"Réveillez-vous tôt et effectuez la prière de nuit. Un moment spécial où les duas sont acceptées."},type:"gold"},
-  {time:{en:"Fajr Time",ar:"وقت الفجر",fr:"Heure du Fajr"},title:{en:"Pray Fajr & Make Dua",ar:"صلاة الفجر والدعاء",fr:"Prier Fajr & Faire Dua"},desc:{en:"Start your Arafah day with Fajr prayer. Begin your dhikr immediately after.",ar:"ابدأ يوم عرفة بصلاة الفجر. ابدأ الذكر فور الانتهاء.",fr:"Commencez votre journée d'Arafah avec la prière du Fajr. Commencez votre dhikr immédiatement après."},type:"emerald"},
-  {time:{en:"After Fajr",ar:"بعد الفجر",fr:"Après Fajr"},title:{en:"Quran Recitation",ar:"تلاوة القرآن",fr:"Récitation du Coran"},desc:{en:"Read Quran until sunrise. The Prophet ﷺ encouraged sitting in dhikr until sunrise.",ar:"اقرأ القرآن حتى الشروق. حث النبي ﷺ على البقاء في الذكر حتى الشروق.",fr:"Lisez le Coran jusqu'au lever du soleil. Le Prophète ﷺ encourageait à rester en dhikr jusqu'au lever."},type:"gold"},
-  {time:{en:"Morning",ar:"الضحى",fr:"Matin"},title:{en:"Duha Prayer & Dhikr",ar:"صلاة الضحى والذكر",fr:"Prière Duha & Dhikr"},desc:{en:"Perform Duha prayer (2-8 rakaat). Continue your dhikr, especially La ilaha illAllah.",ar:"أدِّ صلاة الضحى (٢-٨ ركعات). واصل ذكرك لا سيما لا إله إلا الله.",fr:"Effectuez la prière Duha (2-8 rakaats). Continuez votre dhikr, surtout La ilaha illAllah."},type:"emerald"},
-  {time:{en:"Dhuhr Time",ar:"وقت الظهر",fr:"Heure du Dhuhr"},title:{en:"Combine Dhuhr & Asr",ar:"الجمع بين الظهر والعصر",fr:"Combiner Dhuhr & Asr"},desc:{en:"Pilgrims combine prayers at Arafah. At home, pray each in its time with full focus.",ar:"الحجاج يجمعون الصلاتين في عرفة. في المنزل، صلِّ كلاً في وقته بتركيز تام.",fr:"Les pèlerins combinent les prières à Arafah. Chez vous, priez chacune en son temps avec pleine attention."},type:"gold"},
-  {time:{en:"Afternoon",ar:"بعد الظهر",fr:"Après-midi"},title:{en:"Peak Dua Time — Stand & Cry",ar:"ذروة الدعاء — قف وابكِ",fr:"Temps de Dua Intense — Pleurez"},desc:{en:"The most powerful time to make dua. Raise your hands, cry, beg Allah for everything. This is the heart of Arafah.",ar:"أقوى وقت للدعاء. ارفع يديك وابكِ وتوسل إلى الله بكل شيء. هذا هو قلب عرفة.",fr:"Le moment le plus puissant pour faire dua. Levez les mains, pleurez, suppliez Allah pour tout. C'est le cœur d'Arafah."},type:"active"},
-  {time:{en:"Before Maghrib",ar:"قبل المغرب",fr:"Avant Maghrib"},title:{en:"Final Duas & Istighfar",ar:"الأدعية الأخيرة والاستغفار",fr:"Duas finales & Istighfar"},desc:{en:"As Arafah ends at sunset, intensify your dua and make abundant istighfar in these precious final moments.",ar:"مع غروب الشمس ينتهي وقت عرفة، كثّف دعاءك والاستغفار في هذه اللحظات الثمينة.",fr:"À la fin d'Arafah au coucher du soleil, intensifiez votre dua et l'istighfar dans ces précieux derniers moments."},type:"gold"},
-  {time:{en:"After Maghrib",ar:"بعد المغرب",fr:"Après Maghrib"},title:{en:"Gratitude & Reflection",ar:"الشكر والتأمل",fr:"Gratitude & Réflexion"},desc:{en:"Thank Allah for giving you this day. Write down your duas, reflect on what you asked for, trust in His response.",ar:"اشكر الله على منحك هذا اليوم. اكتب أدعيتك، تأمل فيما طلبت، ثق بإجابته.",fr:"Remerciez Allah de vous avoir accordé ce jour. Notez vos duas, réfléchissez à ce que vous avez demandé, faites confiance à Sa réponse."},type:"emerald"},
-];
-
-// ============================================================
-// STATE
-// ============================================================
-let state = {
-  lang: 'en',
-  theme: 'light',
-  currentScreen: 'screen-onboarding',
-  dhikrIndex: 0,
-  dhikrCounts: [0,0,0,0,0],
-  totalDhikr: 0,
-  checklist: {},
-  duasRead: 0,
-  appStarted: false,
-};
-
-function loadState() {
-  try {
-    const saved = localStorage.getItem('arafah_state_v1');
-    if(saved) {
-      const parsed = JSON.parse(saved);
-      state = {...state,...parsed};
-    }
-  } catch(e){}
-}
-
-function saveState() {
-  try { localStorage.setItem('arafah_state_v1', JSON.stringify(state)); } catch(e){}
-}
-
-// ============================================================
-// LANGUAGE
-// ============================================================
-function t(key) {
-  return (TRANSLATIONS[state.lang] && TRANSLATIONS[state.lang][key]) || TRANSLATIONS['en'][key] || key;
-}
-
-function applyLang(lang) {
-  state.lang = lang;
-  const dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.documentElement.setAttribute('lang', lang);
-  document.documentElement.setAttribute('dir', dir);
-  // Highlight selected
-  ['en','ar','fr'].forEach(l => {
-    const el = document.getElementById('lang-'+l);
-    const mel = document.getElementById('modal-lang-'+l);
-    if(el) el.classList.toggle('selected', l===lang);
-    if(mel) mel.classList.toggle('selected', l===lang);
-  });
-  applyTranslations();
-  saveState();
-}
-
-function applyTranslations() {
-  const ids = {
-    'greeting-text':'greeting','home-title':'homeTitle','countdown-label':'countdownLabel',
-    'cd-sub':'countdownSub','cd-h-label':'hrs','cd-m-label':'min','cd-s-label':'sec',
-    'qa-label':'qaLabel','qa-dhikr':'qaDhikr','qa-duas':'qaDuas','qa-check':'qaCheck',
-    'qa-timeline':'qaTimeline','qa-share':'qaShare',
-    'dua-highlight-label':'duaHighlight','dua-day-translation':'duaDayTranslation',
-    'progress-label':'progressLabel','progress-title':'progressTitle','progress-sub':'progressSub',
-    'ach-label':'achLabel',
-    'ach-0-name':'ach0','ach-0-desc':'ach0d','ach-1-name':'ach1','ach-1-desc':'ach1d',
-    'ach-2-name':'ach2','ach-2-desc':'ach2d','ach-3-name':'ach3','ach-3-desc':'ach3d',
-    'dhikr-screen-title':'dhikrTitle','total-dhikr-label':'totalToday',
-    'duas-screen-title':'duasTitle','checklist-screen-title':'checkTitle',
-    'timeline-screen-title':'timelineTitle','settings-screen-title':'settingsTitle',
-    'darkmode-label':'darkmode','darkmode-sub':'darkmodeS',
-    'lang-label-setting':'langSetting','lang-current-label':'langCurrent',
-    'reset-label':'resetLabel','reset-sub':'resetSub','reset-btn':'resetBtn',
-    'version-text':'versionText','made-with':'madeWith',
-    'lang-change-btn':'langChange','share-btn-text':'shareBtn','share-progress-btn':'shareProgress',
-    'nav-home-label':'navHome','nav-dhikr-label':'navDhikr','nav-duas-label':'navDuas',
-    'nav-check-label':'navCheck','nav-settings-label':'navSettings',
-    'onboard-desc':'onboardDesc','hadith-sub':'hadithSub','start-btn-text':'startBtn',
-    'modal-quote-title':'modalInspTitle','modal-close-btn':'modalInspClose','modal-quote-text':'modalInspText',
-    'modal-lang-title':'modalLangTitle',
-    'stat-dhikr-label':'statDhikr','stat-tasks-label':'statDone','stat-duas-label':'statDuas',
-    'settings-label-app':'settingsAppLabel','settings-label-data':'settingsDataLabel',
-    'settings-label-share':'settingsShareLabel',
-  };
-  Object.entries(ids).forEach(([id,key])=>{
-    const el = document.getElementById(id);
-    if(el) el.textContent = t(key);
-  });
-  renderDhikrSelector();
-  renderChecklist();
-  renderDuas();
-  renderTimeline();
-  updateDhikrDisplay();
-}
-
-function selectLang(lang) { applyLang(lang); }
-function changeLang(lang) { applyLang(lang); closeModal('modal-lang'); }
-
-// ============================================================
-// THEME
-// ============================================================
-function applyTheme(theme) {
-  state.theme = theme;
-  document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : '');
-  const toggle = document.getElementById('toggle-dark');
-  if(toggle) toggle.classList.toggle('on', theme==='dark');
-  const icon = document.getElementById('theme-icon');
-  if(icon && theme==='dark') icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
-  else if(icon) icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-  saveState();
-}
-
-function toggleTheme() { applyTheme(state.theme==='dark'?'light':'dark'); }
-function toggleThemeToggle() { toggleTheme(); }
-
-// ============================================================
-// SCREEN NAVIGATION
-// ============================================================
-function goTo(screenId) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById(screenId);
-  if(target){
-    target.classList.add('active');
-    target.classList.add('screen-fade');
-    setTimeout(()=>target.classList.remove('screen-fade'),600);
-  }
-  state.currentScreen = screenId;
-  // Update nav
-  const navMap = {
-    'screen-home':'nav-home','screen-dhikr':'nav-dhikr',
-    'screen-duas':'nav-duas','screen-checklist':'nav-checklist',
-    'screen-timeline':null,'screen-settings':'nav-settings'
-  };
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const navId = navMap[screenId];
-  if(navId){ const nb = document.getElementById(navId); if(nb) nb.classList.add('active'); }
-  window.scrollTo(0,0);
-}
-
-function startApp() {
-  state.appStarted = true;
-  document.getElementById('main-nav').style.display = 'flex';
-  goTo('screen-home');
-  updateHomeStats();
-  updateCountdown();
-  updateProgress();
-  saveState();
-}
-
-// ============================================================
-// COUNTDOWN
-// ============================================================
-function updateCountdown() {
-  const now = new Date();
-  // Simulate: Arafah ends at local sunset ~18:00
-  const end = new Date(now);
-  end.setHours(18,0,0,0);
-  if(now >= end) end.setDate(end.getDate()+1);
-  const diff = Math.max(0, end - now);
-  const h = Math.floor(diff/3600000);
-  const m = Math.floor((diff%3600000)/60000);
-  const s = Math.floor((diff%60000)/1000);
-  const pad = n => String(n).padStart(2,'0');
-  const hEl = document.getElementById('cd-h');
-  const mEl = document.getElementById('cd-m');
-  const sEl = document.getElementById('cd-s');
-  if(hEl) hEl.textContent = pad(h);
-  if(mEl) mEl.textContent = pad(m);
-  if(sEl) sEl.textContent = pad(s);
-}
-setInterval(updateCountdown, 1000);
-
-function updateHomeStats() {
-  const dhikrEl = document.getElementById('stat-dhikr');
-  const duasEl = document.getElementById('stat-duas');
-  if(dhikrEl) dhikrEl.textContent = state.totalDhikr;
-  if(duasEl) duasEl.textContent = state.duasRead;
-  updateProgress();
-}
-
-function updateProgress() {
-  const total = CHECKLIST_DATA.length;
-  const done = Object.values(state.checklist).filter(Boolean).length;
-  const pct = total > 0 ? Math.round((done/total)*100) : 0;
-  const statEl = document.getElementById('stat-tasks');
-  if(statEl) statEl.textContent = pct+'%';
-  const pctEl = document.getElementById('progress-pct');
-  if(pctEl) pctEl.textContent = pct+'%';
-  const ring = document.getElementById('progress-ring');
-  if(ring){
-    const circumference = 175.9;
-    ring.style.strokeDashoffset = circumference * (1 - pct/100);
-  }
-  // Check achievements
-  checkAchievements(done, total);
-}
-
-function checkAchievements(done, total) {
-  // ach-1: 100 dhikr
-  if(state.totalDhikr >= 100){
-    const el = document.getElementById('ach-1');
-    if(el){ el.style.opacity='1'; el.style.filter='none'; }
-  }
-  // ach-2: 5 duas
-  if(state.duasRead >= 5){
-    const el = document.getElementById('ach-2');
-    if(el){ el.style.opacity='1'; el.style.filter='none'; }
-  }
-  // ach-3: all tasks
-  if(done === total && total > 0){
-    const el = document.getElementById('ach-3');
-    if(el){ el.style.opacity='1'; el.style.filter='none'; }
-    fireConfetti();
-  }
-}
-
-// ============================================================
-// DHIKR
-// ============================================================
-function renderDhikrSelector() {
-  const container = document.getElementById('dhikr-selector');
-  if(!container) return;
-  container.innerHTML = DHIKR_LIST.map((d,i) => `
-    <button class="dhikr-chip${i===state.dhikrIndex?' active':''}" onclick="selectDhikr(${i})">${d.arabic}</button>
-  `).join('');
-}
-
-function selectDhikr(i) {
-  state.dhikrIndex = i;
-  renderDhikrSelector();
-  updateDhikrDisplay();
-}
-
-function updateDhikrDisplay() {
-  const d = DHIKR_LIST[state.dhikrIndex];
-  if(!d) return;
-  const countEl = document.getElementById('dhikr-count-display');
-  const labelEl = document.getElementById('dhikr-current-label');
-  const arabicEl = document.getElementById('dhikr-arabic-display');
-  const translitEl = document.getElementById('dhikr-translit');
-  const meaningEl = document.getElementById('dhikr-meaning-display');
-  const targetEl = document.getElementById('dhikr-target-text');
-  const totalEl = document.getElementById('total-dhikr-num');
-  const progFill = document.getElementById('dhikr-prog-fill');
-  const count = state.dhikrCounts[state.dhikrIndex] || 0;
-  if(countEl) countEl.textContent = count;
-  if(labelEl) labelEl.textContent = d.arabic;
-  if(arabicEl) arabicEl.textContent = d.arabic;
-  if(translitEl) translitEl.textContent = d.translit;
-  if(meaningEl) meaningEl.textContent = d.meaning[state.lang] || d.meaning.en;
-  if(targetEl) targetEl.textContent = t('targetText') + ' ' + d.target;
-  if(totalEl) totalEl.textContent = state.totalDhikr;
-  if(progFill) {
-    const pct = Math.min(100, Math.round((count/d.target)*100));
-    progFill.style.width = pct+'%';
-  }
-}
-
-function countDhikr() {
-  const btn = document.getElementById('dhikr-btn');
-  state.dhikrCounts[state.dhikrIndex] = (state.dhikrCounts[state.dhikrIndex]||0) + 1;
-  state.totalDhikr++;
-  const count = state.dhikrCounts[state.dhikrIndex];
-  const d = DHIKR_LIST[state.dhikrIndex];
-  updateDhikrDisplay();
-  updateHomeStats();
-  if(btn){ btn.classList.add('pulse'); setTimeout(()=>btn.classList.remove('pulse'),300); }
-  // Haptic if supported
-  if(navigator.vibrate) navigator.vibrate(20);
-  // Milestone toasts
-  if(count === d.target){ showToast(t('toastTarget')); fireConfetti(); }
-  else if(count % 33 === 0 && count > 0){ showToast(t('toastDhikr')); }
-  saveState();
-}
-
-function resetDhikr() {
-  state.dhikrCounts[state.dhikrIndex] = 0;
-  updateDhikrDisplay();
-  showToast(t('toastReset'));
-  saveState();
-}
-
-// ============================================================
-// DUAS
-// ============================================================
-function renderDuas() {
-  const container = document.getElementById('duas-container');
-  if(!container) return;
-  const title = `<h2 style="font-family:'Amiri',serif;font-size:24px;color:var(--emerald);margin:8px 0 16px">${t('duasTitle')}</h2>`;
-  const cards = DUAS_DATA.map((dua,i) => `
-    <div class="dua-card card-gold" style="margin-bottom:16px;cursor:pointer" onclick="markDuaRead(${i})">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <span class="badge badge-gold">${i+1}</span>
-        <span style="font-size:11px;color:var(--gold);font-weight:700;letter-spacing:0.5px">★ ARAFAH DUA</span>
-      </div>
-      <div class="dua-arabic">${dua.arabic}</div>
-      <div class="dua-transliteration">${dua.translit}</div>
-      <div class="dua-translation">${dua.translation[state.lang] || dua.translation.en}</div>
-      <div class="dua-source">${dua.source}</div>
-    </div>
-  `).join('');
-  container.innerHTML = title + cards;
-}
-
-function markDuaRead(i) {
-  state.duasRead = Math.min(DUAS_DATA.length, state.duasRead + 1);
-  updateHomeStats();
-  showToast('🤲 Ameen!');
-  saveState();
-}
-
-// ============================================================
-// CHECKLIST
-// ============================================================
-function renderChecklist() {
-  const container = document.getElementById('checklist-container');
-  if(!container) return;
-  container.innerHTML = CHECKLIST_DATA.map(item => {
-    const checked = state.checklist[item.id] || false;
-    return `
-      <div class="check-item${checked?' done':''}" id="ci-${item.id}">
-        <button class="check-box${checked?' checked':''}" onclick="toggleCheck('${item.id}')" aria-label="Toggle ${item.title.en}">
-          <svg viewBox="0 0 16 16"><polyline points="2 8 6 12 14 4"/></svg>
-        </button>
-        <div class="check-content">
-          <div class="check-title">${item.emoji} ${item.title[state.lang] || item.title.en}</div>
-          <div class="check-subtitle">${item.sub[state.lang] || item.sub.en}</div>
-        </div>
-      </div>
-    `;
-  }).join('');
-  updateChecklistProgress();
-}
-
-function toggleCheck(id) {
-  state.checklist[id] = !state.checklist[id];
-  renderChecklist();
-  updateProgress();
-  if(state.checklist[id]) {
-    showToast('✅ Masha\'Allah!');
-    if(navigator.vibrate) navigator.vibrate([20,30,20]);
-  }
-  saveState();
-}
-
-function updateChecklistProgress() {
-  const total = CHECKLIST_DATA.length;
-  const done = Object.values(state.checklist).filter(Boolean).length;
-  const pct = Math.round((done/total)*100);
-  const ptEl = document.getElementById('checklist-progress-text');
-  const pcEl = document.getElementById('checklist-pct');
-  const barEl = document.getElementById('checklist-bar');
-  if(ptEl) ptEl.textContent = `${done} ${t('checkProgress')} ${total} ${t('checkCompleted')}`;
-  if(pcEl) pcEl.textContent = pct+'%';
-  if(barEl) barEl.style.width = pct+'%';
-}
-
-// ============================================================
-// TIMELINE
-// ============================================================
-function renderTimeline() {
-  const container = document.getElementById('timeline-container');
-  if(!container) return;
-  const title = `<h2 style="font-family:'Amiri',serif;font-size:24px;color:var(--emerald);margin:8px 0 16px">${t('timelineTitle')}</h2>`;
-  const items = TIMELINE_DATA.map((item,i) => `
-    <div class="timeline-item">
-      <div>
-        <div class="timeline-dot ${item.type}">
-          ${item.type==='gold'?'🌟':item.type==='active'?'🤲':'✨'}
-        </div>
-      </div>
-      <div style="flex:1;padding-bottom:16px">
-        <div class="timeline-time">${item.time[state.lang] || item.time.en}</div>
-        <div class="timeline-title">${item.title[state.lang] || item.title.en}</div>
-        <div class="timeline-desc">${item.desc[state.lang] || item.desc.en}</div>
-      </div>
-    </div>
-  `).join('');
-  container.innerHTML = title + items;
-}
-
-// ============================================================
-// MODALS
-// ============================================================
-function showModal(id) {
-  const el = document.getElementById(id);
-  if(el) el.classList.add('open');
-}
-function closeModal(id) {
-  const el = document.getElementById(id);
-  if(el) el.classList.remove('open');
-}
-function closeModalBg(e, id) {
-  if(e.target === e.currentTarget) closeModal(id);
-}
-
-// ============================================================
-// TOAST
-// ============================================================
-let toastTimeout;
-function showToast(msg) {
-  const el = document.getElementById('toast');
-  if(!el) return;
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => el.classList.remove('show'), 2400);
-}
-
-// ============================================================
-// SHARE
-// ============================================================
-function shareApp() {
-  const text = state.lang==='ar'
-    ? '🌙 رفيق عرفة - تطبيق روحي ليوم عرفة المبارك | أعظم يوم في العام'
-    : state.lang==='fr'
-    ? '🌙 Arafah Companion - Guide spirituel pour le Jour d\'Arafah | Le meilleur jour de l\'année'
-    : '🌙 Arafah Companion - Your spiritual guide for the Day of Arafah | The best day of the year';
-  if(navigator.share){
-    navigator.share({title:'Arafah Companion',text,url:window.location.href}).catch(()=>{});
-  } else {
-    navigator.clipboard.writeText(text+' '+window.location.href).then(()=>showToast(t('toastShared'))).catch(()=>showToast(t('toastShared')));
-  }
-}
-
-function shareProgress() {
-  const done = Object.values(state.checklist).filter(Boolean).length;
-  const total = CHECKLIST_DATA.length;
-  const pct = Math.round((done/total)*100);
-  const text = state.lang==='ar'
-    ? `🤲 أنا أتعبد في يوم عرفة المبارك!\n📿 ${state.totalDhikr} ذكر\n✅ ${done}/${total} مهمة (${pct}%)\nيوم عرفة خير يوم طلعت فيه الشمس`
-    : `🤲 Worshipping on the blessed Day of Arafah!\n📿 ${state.totalDhikr} dhikr counted\n✅ ${done}/${total} tasks done (${pct}%)\nMay Allah accept from all of us 🌙`;
-  navigator.clipboard.writeText(text).then(()=>showToast(t('toastProgressShared'))).catch(()=>showToast(t('toastProgressShared')));
-}
-
-// ============================================================
-// RESET
-// ============================================================
-function confirmReset() {
-  if(confirm(t('confirmReset'))){
-    state.dhikrCounts = [0,0,0,0,0];
-    state.totalDhikr = 0;
-    state.checklist = {};
-    state.duasRead = 0;
-    saveState();
-    updateHomeStats();
-    renderChecklist();
-    renderDhikrSelector();
-    updateDhikrDisplay();
-    showToast(t('resetDone'));
-  }
-}
-
-// ============================================================
-// CONFETTI
-// ============================================================
-function fireConfetti() {
-  const colors = ['#b8923a','#d4a853','#2a7a50','#3d9966','#f0c97a','#1a5c3a'];
-  for(let i=0;i<24;i++){
-    const piece = document.createElement('div');
-    piece.className = 'confetti-piece';
-    piece.style.cssText = `
-      left:${Math.random()*100}vw;
-      top:-10px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      transform:rotate(${Math.random()*360}deg);
-      animation-duration:${1+Math.random()}s;
-      animation-delay:${Math.random()*0.5}s;
-      width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;
-    `;
-    document.body.appendChild(piece);
-    setTimeout(()=>piece.remove(), 2500);
-  }
-}
-
-// ============================================================
-// DATE
-// ============================================================
-function updateDate() {
-  const el = document.getElementById('home-date-text');
-  if(!el) return;
-  const now = new Date();
-  const options = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
-  const locale = state.lang==='ar'?'ar-SA':state.lang==='fr'?'fr-FR':'en-US';
-  el.textContent = now.toLocaleDateString(locale, options);
-}
-
-// ============================================================
-// INIT
-// ============================================================
-window.addEventListener('DOMContentLoaded', ()=>{
-  loadState();
-  applyTheme(state.theme);
-  applyLang(state.lang);
-  updateDate();
-  setInterval(updateDate, 60000);
-
-  if(state.appStarted){
-    document.getElementById('main-nav').style.display='flex';
-    goTo(state.currentScreen || 'screen-home');
-    updateHomeStats();
-    updateCountdown();
-    updateProgress();
-  } else {
-    goTo('screen-onboarding');
-  }
-});
-</script>
+</div><!-- /app-shell -->
+<script src="script.js"></script>
 </body>
 </html>
