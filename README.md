@@ -20,7 +20,5 @@ A simple, beautiful, mobile-friendly web app created to help Muslims organize an
 
 ## 🚀 Live Demo
 
-Add your GitHub Pages link here:
-
 ```txt
-https://your-username.github.io/arafah-guide/
+https://shadhaaa.github.io/arafah-guide/
