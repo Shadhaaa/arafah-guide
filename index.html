@@ -1,32 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0C2218" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Arafah Companion | يوم عرفة</title>
+  <title>رفيق عرفة | Arafah Companion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css">
-  <meta property="og:title" content="Arafah Companion | رفيق عرفة">
-
-<meta property="og:description" content="🌙 إنه يوم عرفة. لا تنسني من دعائك 🤍 A peaceful companion with duas, dhikr, worship reminders, and personal reflections for the most blessed day of the year.">
-
-<meta property="og:image" content="https://shadhaaa.github.io/arafah-guide/logo.png">
-
-<meta property="og:url" content="https://shadhaaa.github.io/arafah-guide/">
-
-<meta property="og:type" content="website">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Arafah Companion | رفيق عرفة">
-<meta name="twitter:description" content="Duas, dhikr, checklist, and Arafah reminders.">
-<meta name="twitter:image" content="https://shadhaaa.github.io/arafah-guide/logo.png">
+  <meta property="og:title" content="رفيق عرفة | Arafah Companion">
+  <meta property="og:description" content="رفيق روحاني ليوم عرفة: دعاء، ذكر، تكبير، لبيك، وخطة عبادة بسيطة.">
+  <meta property="og:image" content="https://shadhaaa.github.io/arafah-guide/logo.png">
+  <meta property="og:url" content="https://shadhaaa.github.io/arafah-guide/">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="رفيق عرفة | Arafah Companion">
+  <meta name="twitter:description" content="رفيق روحاني ليوم عرفة: دعاء، ذكر، تكبير، لبيك، وخطة عبادة بسيطة.">
+  <meta name="twitter:image" content="https://shadhaaa.github.io/arafah-guide/logo.png">
 </head>
-<body>
+<body lang="ar">
 
 <!-- Islamic Geometric Background -->
 <div class="geo-bg" aria-hidden="true">
@@ -42,350 +38,622 @@
   </svg>
 </div>
 
-<!-- Language Gate -->
-<section class="language-gate" id="languageGate" aria-label="Choose language">
+<!-- ═══════════════════════════════════════════
+     ONBOARDING STEP 1: Language Choice
+═══════════════════════════════════════════ -->
+<div class="onboard-overlay" id="onboardStep1">
   <div class="language-card">
-    <div class="moon-mark">🌙</div>
+    <span class="moon-mark">🌙</span>
     <p class="gate-eyebrow">يَوْمُ عَرَفَة</p>
     <h1>Arafah Companion</h1>
     <p class="gate-arabic-quote">خَيْرُ الدُّعَاءِ دُعَاءُ يَوْمِ عَرَفَة</p>
-    <p class="gate-subtitle">Choose your language to begin. You can change it anytime from Settings.</p>
+    <p class="gate-subtitle" style="color:var(--text-muted);font-size:14px;margin-bottom:28px;">اختر لغتك · Choose your language · Choisissez votre langue</p>
+
     <div class="language-grid">
-      <button class="language-choice" data-lang="en"><strong>English</strong><span>Start in English</span></button>
-      <button class="language-choice" data-lang="fr"><strong>Français</strong><span>Commencer en français</span></button>
-      <button class="language-choice" data-lang="ar"><strong>العربية</strong><span>ابدأ بالعربية</span></button>
+      <button class="language-choice" data-lang="ar" onclick="selectLanguage('ar')">
+        <span class="flag-emoji">🇸🇦</span>
+        <div class="language-choice-text">
+          <strong>العربية</strong>
+          <small>ابدأ بالعربية</small>
+        </div>
+      </button>
+      <button class="language-choice" data-lang="en" onclick="selectLanguage('en')">
+        <span class="flag-emoji">🇬🇧</span>
+        <div class="language-choice-text">
+          <strong>English</strong>
+          <small>Start in English</small>
+        </div>
+      </button>
+      <button class="language-choice" data-lang="fr" onclick="selectLanguage('fr')">
+        <span class="flag-emoji">🇫🇷</span>
+        <div class="language-choice-text">
+          <strong>Français</strong>
+          <small>Commencer en français</small>
+        </div>
+      </button>
     </div>
   </div>
-</section>
+</div>
 
-<!-- App Shell -->
+<!-- ═══════════════════════════════════════════
+     ONBOARDING STEP 2: Welcome / About App
+═══════════════════════════════════════════ -->
+<div class="onboard-overlay hidden" id="onboardStep2">
+  <div class="welcome-card">
+    <span class="welcome-icon-big">🕌</span>
+    <h1 id="welcomeTitle">رفيقك في يوم عرفة</h1>
+    <p class="arabic-quote" id="welcomeQuote">خَيْرُ الدُّعَاءِ دُعَاءُ يَوْمِ عَرَفَةَ، وَخَيْرُ مَا قُلْتُ أَنَا وَالنَّبِيُّونَ: لا إِلَهَ إِلاَّ اللَّهُ</p>
+
+    <div class="welcome-features">
+      <div class="welcome-feature">
+        <span class="feat-icon">⏳</span>
+        <div class="feat-title" id="feat1Title">العد التنازلي</div>
+        <div class="feat-desc" id="feat1Desc">تتبع أفضل لحظات يومك</div>
+      </div>
+      <div class="welcome-feature">
+        <span class="feat-icon">📿</span>
+        <div class="feat-title" id="feat2Title">الذكر</div>
+        <div class="feat-desc" id="feat2Desc">عدّاد تفاعلي بنية حاضرة</div>
+      </div>
+      <div class="welcome-feature">
+        <span class="feat-icon">🤲</span>
+        <div class="feat-title" id="feat3Title">الدعاء</div>
+        <div class="feat-desc" id="feat3Desc">أدعية مأثورة ومساحة خاصة بك</div>
+      </div>
+      <div class="welcome-feature">
+        <span class="feat-icon">📋</span>
+        <div class="feat-title" id="feat4Title">خطة العبادة</div>
+        <div class="feat-desc" id="feat4Desc">قائمة مهام من الفجر إلى المغرب</div>
+      </div>
+    </div>
+
+    <button class="welcome-cta" id="welcomeCtaBtn" type="button">
+      ابدأ رحلتك 🌟
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ONBOARDING STEP 3: Day Timeline
+═══════════════════════════════════════════ -->
+<div class="onboard-overlay hidden" id="onboardStep3">
+  <div class="timeline-onboard">
+    <h2 id="onboardTlTitle">🗓 جدول يوم عرفة</h2>
+    <p class="date-badge">25 مايو · ٢٦ مايو ٢٠٢٦</p>
+
+    <div class="onboard-timeline" id="onboardTimeline">
+      <!-- Items injected by JS -->
+    </div>
+
+    <button class="onboard-start-btn" onclick="enterApp()">
+      <span id="enterAppLabel">ادخل التطبيق ←</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- Labbaik Audio Prompt -->
+<div class="labbaik-modal hidden" id="labbaikModal" role="dialog" aria-modal="true" aria-labelledby="labbaikTitle">
+  <div class="labbaik-card">
+    <div class="labbaik-icon">🕋</div>
+    <p class="eyebrow">صوت التلبية</p>
+    <h2 id="labbaikTitle">هل تريد تشغيل لبيك اللهم لبيك؟</h2>
+    <p>يمكنك إيقاف الصوت في أي وقت من زر الكتم أعلى الشاشة.</p>
+    <div class="labbaik-actions">
+      <button class="gold-button" id="startLabbaikBtn" type="button">نعم، شغّل الصوت</button>
+      <button class="soft-button" id="skipLabbaikBtn" type="button">لا، بدون صوت</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     APP SHELL
+═══════════════════════════════════════════ -->
 <div class="app-shell" id="appShell">
 
+  <!-- TOP NAVIGATION -->
+  <nav class="top-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-go="home">
+      <span>🏠</span>
+      <span class="nav-label" id="navHome">الرئيسية</span>
+    </button>
+    <button class="nav-button" data-go="dhikr">
+      <span>📿</span>
+      <span class="nav-label" id="navDhikr">الذكر</span>
+    </button>
+    <button class="nav-button" data-go="duas">
+      <span>🤲</span>
+      <span class="nav-label" id="navDuas">الدعاء</span>
+    </button>
+    <button class="nav-button" data-go="checklist">
+      <span>📋</span>
+      <span class="nav-label" id="navPlan">الخطة</span>
+    </button>
+    <button class="nav-button" data-go="more">
+      <span>⚙️</span>
+      <span class="nav-label" id="navMore">الإعدادات</span>
+    </button>
+  </nav>
+
+  <!-- APP HEADER -->
   <header class="app-header">
-    <div>
-      <span class="header-eyebrow" id="headerEyebrow">يَوْمُ عَرَفَة</span>
-      <h1 id="appTitle">Arafah Companion</h1>
-      <span class="header-quote" id="headerQuote">"خير الدعاء دعاء يوم عرفة" — النبي محمد ﷺ</span>
-      <p id="todayLabel" class="today-label muted small"></p>
-    </div>
-    <div class="header-actions">
-      <button class="icon-button" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
-      <button class="icon-button" id="shareAppBtn" aria-label="Share app">↗</button>
+    <div class="header-top-row">
+      <div>
+        <span class="header-eyebrow" id="headerEyebrow">يَوْمُ عَرَفَة</span>
+        <h1 id="appTitle">رفيق عرفة</h1>
+        <span class="header-quote" id="headerQuote">"خير الدعاء دعاء يوم عرفة" — النبي محمد ﷺ</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-button" id="muteAudioBtn" aria-label="Mute audio">🔇</button>
+        <button class="icon-button" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <button class="icon-button share-icon-button" id="shareAppBtn" aria-label="Share app" title="Share this app">📤</button>
+      </div>
     </div>
   </header>
 
-  <div class="sticky-countdown" id="stickyCountdown">
-    <span class="sticky-phase" id="stickyPhase">Arafah starts soon</span>
-    <strong class="sticky-time" id="stickyTime">--:--:--</strong>
-  </div>
-
+  <!-- STICKY COUNTDOWN -->
+  
   <main>
 
     <!-- ─── HOME SCREEN ─── -->
     <section class="screen active" id="homeScreen">
 
-      <!-- Hero Card -->
+      <!-- Hero Countdown Card -->
       <section class="hero-card" id="heroCard">
         <div class="hero-copy">
-          <span class="hero-pill">
-            <span class="hero-pill-dot"></span>
-            <span id="phasePill">Get ready</span>
-          </span>
-          <h2 id="countdownTitle">Time left for Arafah Day</h2>
-          <p id="countdownSubtitle">Prepare your heart, your dua list, and your intention.</p>
+         
+          <h2 id="countdownTitle">الوقت المتبقي ليوم عرفة</h2>
+          <p id="countdownSubtitle">أعدّ قلبك، قائمة دعائك، ونيتك.</p>
         </div>
         <div class="countdown-grid" aria-label="Countdown">
-          <div class="countdown-cell"><strong id="cdDays">00</strong><span id="cdDaysLabel">days</span></div>
-          <div class="countdown-cell"><strong id="cdHours">00</strong><span id="cdHoursLabel">hours</span></div>
-          <div class="countdown-cell"><strong id="cdMinutes">00</strong><span id="cdMinutesLabel">min</span></div>
-          <div class="countdown-cell"><strong id="cdSeconds">00</strong><span id="cdSecondsLabel">sec</span></div>
+          <div class="countdown-cell"><strong id="cdHours">00</strong><span id="cdHoursLabel">ساعات</span></div>
+          <div class="countdown-cell"><strong id="cdMinutes">00</strong><span id="cdMinutesLabel">دقائق</span></div>
         </div>
       </section>
 
+      <!-- Invest Time Text -->
+      <p class="invest-time-text" id="investTimeText">استثمر هذا الوقت الثمين ✨</p>
+
       <!-- Now Card -->
-      <article class="card now-card gold-glow" id="nowCard">
-        <div class="card-accent gold"></div>
-        <div class="now-icon-wrap"><span id="nowIcon">🌙</span></div>
-        <div class="now-body">
-          <span class="now-eyebrow" id="rightNowLabel">Right now</span>
-          <h3 class="now-title" id="nowTitle">Prepare your dua list</h3>
-          <p class="now-text" id="nowText"></p>
-          <button class="primary-button" id="nowActionBtn">Open suggested action</button>
-        </div>
-      </article>
+     
 
       <!-- Stats -->
-      <div class="stats-row">
-        <article class="stat-card">
-          <strong class="stat-value" id="statProgress">0%</strong>
-          <span class="stat-label" id="statChecklistLabel">Checklist</span>
-        </article>
-        <article class="stat-card">
-          <strong class="stat-value" id="statDhikr">0</strong>
-          <span class="stat-label" id="statDhikrLabel">Dhikr</span>
-        </article>
-        <article class="stat-card">
-          <strong class="stat-value" id="statDuas">0</strong>
-          <span class="stat-label" id="statDuasLabel">Duas said</span>
-        </article>
-      </div>
-
-      <!-- Quick Path -->
-      <div class="section-head">
-        <div class="section-head-inner">
-          <p class="eyebrow" id="quickPathLabel">Quick path</p>
-          <h3 id="whatNeedTitle">What do you need?</h3>
-        </div>
-        <span class="swipe-hint" id="swipeHint">Swipe →</span>
-      </div>
-
-      <div class="scroll-fade">
-        <div class="quick-scroll" role="list">
-          <button class="quick-card" data-go="dhikr" role="listitem">
-            <span class="quick-card-icon">📿</span>
-            <strong id="quickDhikrTitle">Start dhikr</strong>
-            <small id="quickDhikrSub">Count with focus</small>
-          </button>
-          <button class="quick-card" data-go="duas" role="listitem">
-            <span class="quick-card-icon">🤲</span>
-            <strong id="quickDuaTitle">Dua mode</strong>
-            <small id="quickDuaSub">Full-screen duas</small>
-          </button>
-          <button class="quick-card" data-go="checklist" role="listitem">
-            <span class="quick-card-icon">📋</span>
-            <strong id="quickPlanTitle">Worship plan</strong>
-            <small id="quickPlanSub">Essential tasks</small>
-          </button>
-          <button class="quick-card" data-go="more" role="listitem">
-            <span class="quick-card-icon">🗓</span>
-            <strong id="quickTimelineTitle">Timeline</strong>
-            <small id="quickTimelineSub">Best moments</small>
-          </button>
-          <button class="quick-card" id="rescueQuickBtn" role="listitem">
-            <span class="quick-card-icon">🆘</span>
-            <strong id="quickRescueTitle">Rescue plan</strong>
-            <small id="quickRescueSub">If time is short</small>
-          </button>
-        </div>
-      </div>
-
-      <!-- Intention Card -->
-      <article class="card intention-card">
-        <div class="card-accent"></div>
-        <p class="eyebrow" id="intentionLabel">Intention of the day</p>
-        <h3 id="intentionTitle">Make it personal</h3>
-        <textarea id="intentionInput" rows="3" placeholder="Today I intend to seek forgiveness..."></textarea>
-        <button class="primary-button" id="saveIntentionBtn">Save intention</button>
-      </article>
-
-      <!-- Progress Card -->
+        <!-- Progress Card -->
       <article class="card progress-card">
         <div class="progress-ring" id="progressRing" style="--progress:0">
           <span class="progress-ring-text" id="progressRingText">0%</span>
         </div>
         <div>
-          <p class="eyebrow" id="worshipProgressLabel">Worship progress</p>
-          <p class="progress-message" id="progressMessage">Start small. One sincere action is enough.</p>
-          <p class="progress-hint" id="progressHint">The goal is not perfection. The goal is a sincere heart.</p>
+          <p class="eyebrow" id="worshipProgressLabel">تقدم العبادة</p>
+          <p class="progress-message" id="progressMessage">ابدأ قليلاً. عمل صادق واحد يكفي.</p>
+          <p class="progress-hint" id="progressHint">الهدف ليس الكمال، الهدف قلب صادق.</p>
         </div>
       </article>
+      <div class="stats-row">
+        <article class="stat-card">
+          <strong class="stat-value" id="statProgress">0%</strong>
+          <span class="stat-label" id="statChecklistLabel">الخطة</span>
+        </article>
+        <article class="stat-card">
+          <strong class="stat-value" id="statDhikr">0</strong>
+          <span class="stat-label" id="statDhikrLabel">الذكر</span>
+        </article>
+        <article class="stat-card">
+          <strong class="stat-value" id="statDuas">0</strong>
+          <span class="stat-label" id="statDuasLabel">الأدعية</span>
+        </article>
+      </div>
+
+      <!-- ماذا تحتاج الآن؟ — BIG BOXES -->
+      <div class="what-need-section">
+        <div class="what-need-header">
+          <div>
+            <p class="what-need-eyebrow" id="quickPathLabel">ابدأ الآن</p>
+            <h3 id="whatNeedTitle">ماذا تحتاج الآن؟</h3>
+          </div>
+        </div>
+
+        <div class="big-boxes-grid">
+          <button class="big-box box-dhikr" data-go="dhikr">
+            <span class="box-icon">📿</span>
+            <span class="box-title" id="bigBoxDhikrTitle"> الذكر</span>
+            <span class="box-sub" id="bigBoxDhikrSub">عدّ بتركيز وحضور</span>
+          </button>
+
+          <button class="big-box box-dua" data-go="duas">
+            <span class="box-icon">🤲</span>
+            <span class="box-title" id="bigBoxDuaTitle"> الدعاء</span>
+            <span class="box-sub" id="bigBoxDuaSub">أدعية بشاشة كاملة</span>
+          </button>
+
+          <button class="big-box box-plan" data-go="checklist">
+            <span class="box-icon">📋</span>
+            <span class="box-title" id="bigBoxPlanTitle"> العبادة</span>
+            <span class="box-sub" id="bigBoxPlanSub">المهام الأساسية</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Standalone audio section — not inside any navigation box -->
+      <section class="audio-section-card" id="audioSection" aria-label="Listen controls">
+        <div class="audio-section-head">
+          <span class="audio-section-icon">🎧</span>
+          <div>
+            <p class="eyebrow" id="audioSectionEyebrow">استمع</p>
+            <h3 id="bigBoxListenTitle">اختر ما تريد سماعه</h3>
+            <p id="bigBoxListenSub">هذا القسم للصوت فقط: التكبير أو لبيك.</p>
+          </div>
+        </div>
+      
+        <div class="audio-choice-grid" aria-label="Audio choices">
+          <button class="audio-choice-btn" type="button" data-audio-choice="takbeer" id="listenTakbeerBtn">
+            <span>🕋</span>
+            <strong>التكبير</strong>
+          </button>
+      
+          <button class="audio-choice-btn" type="button" data-audio-choice="labaik" id="listenLabbaikBtn">
+            <span>🎙️</span>
+            <strong>لبيك</strong>
+          </button>
+      
+          <button class="audio-choice-btn mute-choice-btn" type="button" id="muteChoiceBtn" aria-label="Mute audio">
+            <span id="muteAudioIcon">🔊</span>
+            <strong id="muteAudioText">إيقاف الصوت</strong>
+          </button>
+        </div>
+      </section>
+
+     
 
       <!-- Rescue Card -->
       <article class="card rescue-card" id="rescueCard">
-        <p class="eyebrow" id="rescueLabel">Arafah rescue plan</p>
-        <h3 id="rescueTitle">I've lost time… what now?</h3>
-        <p class="muted small" id="rescueText">Don't give up. A few sincere minutes can be very precious.</p>
+        <p class="eyebrow" id="rescueLabel">خطة إنقاذ عرفة </p>
+        <h3 id="rescueTitle">ضاع وقتي... ماذا أفعل؟  🆘</h3>
+        <p class="muted small" id="rescueText">لا تستسلم. دقائق قليلة بصدق قد تكون ثمينة جداً.</p>
         <ul class="mini-list" id="rescueList"></ul>
-        <button class="gold-button" id="rescueButton" data-go="duas">Open dua mode</button>
+        <button class="gold-button" id="rescueButton" data-go="duas">افتح وضع الدعاء</button>
       </article>
 
       <!-- Share Card -->
       <article class="card share-card">
-        <p class="eyebrow" id="shareGoodLabel">Share the good</p>
-        <h3 id="shareGoodTitle">Remind someone today</h3>
-        <p class="muted small" id="shareGoodText">Send a gentle reminder with the app link, or share your progress.</p>
+        <p class="eyebrow" id="shareGoodLabel">شارك الخير</p>
+        <h3 id="shareGoodTitle">ذكّر شخصاً اليوم</h3>
+        <p class="muted small" id="shareGoodText">أرسل تذكيراً لطيفاً برابط التطبيق، أو شارك تقدمك.</p>
         <div class="button-row">
-          <button class="soft-button" id="shareReminderBtn">Copy reminder</button>
-          <button class="soft-button" id="shareProgressBtn">Share progress</button>
+          <button class="soft-button" id="shareReminderBtn">انسخ التذكير</button>
+          <button class="soft-button" id="shareProgressBtn">شارك التقدم</button>
         </div>
       </article>
 
-      <p class="source-note" id="sourceNote">Countdown uses Maghrib time in Tunis: May 25, 2026 19:26 → May 26, 2026 19:27.</p>
+      <!-- App maker dua card -->
+      <article class="card maker-dua-card" aria-label="Pray for the app maker">
+        <div class="maker-dua-icon" aria-hidden="true">🤲</div>
+        <div class="maker-dua-copy">
+          <p class="eyebrow" id="makerDuaLabel">دعوة منك</p>
+          <h3 id="makerDuaTitle">لا تنسَ الدعاء لصانع/صانعة التطبيق 🤲</h3>
+          <p class="muted small" id="makerDuaText">ادعُ لمن صنع هذا التطبيق بالقبول والبركة. جزاك الله خيراً.</p>
+        </div>
+      </article>
+
+      <p class="source-note" id="sourceNote">العد التنازلي يعتمد وقت المغرب في تونس: 25 مايو 2026 الساعة 19:26 ← 26 مايو 2026 الساعة 19:27.</p>
     </section>
 
     <!-- ─── DHIKR SCREEN ─── -->
     <section class="screen" id="dhikrScreen">
       <div class="page-title">
-        <p class="eyebrow" id="dhikrEyebrow">Dhikr counter</p>
-        <h2 id="dhikrTitle">Small words. Great reward.</h2>
+        <p class="eyebrow" id="dhikrEyebrow">عداد الذكر</p>
+        <h2 id="dhikrTitle">كلمات صغيرة. أجر عظيم.</h2>
       </div>
 
       <div class="dhikr-stage">
-        <div class="chip-row" id="dhikrChips" style="justify-content:center"></div>
+        <div class="chip-row" id="dhikrChips"></div>
 
         <div class="dhikr-central">
-          <p class="dhikr-arabic-display arabic large" id="dhikrArabic">سُبْحَانَ اللهِ</p>
-          <p class="dhikr-meaning" id="dhikrMeaning">Glory be to Allah</p>
+          <p class="dhikr-arabic-display" id="dhikrArabic">سُبْحَانَ اللهِ</p>
+          <p class="dhikr-meaning" id="dhikrMeaning">سبحان الله</p>
 
           <button class="dhikr-button" id="dhikrButton" aria-label="Count dhikr">
             <span class="dhikr-count-display" id="dhikrCount">0</span>
-            <span class="dhikr-tap-label" id="tapLabel">tap</span>
+            <span class="dhikr-tap-label" id="tapLabel">اضغط</span>
           </button>
 
           <div class="target-row">
-            <button class="tiny-button" data-target="33" id="target33Btn">Target 33</button>
-            <button class="tiny-button" data-target="100" id="target100Btn">Target 100</button>
-            <button class="tiny-button" data-target="1000" id="target1000Btn">Target 1000</button>
+            <button class="tiny-button" data-target="33" id="target33Btn">هدف 33</button>
+            <button class="tiny-button" data-target="100" id="target100Btn">هدف 100</button>
+            <button class="tiny-button" data-target="1000" id="target1000Btn">هدف 1000</button>
           </div>
 
-          <div class="target-line">
+          <div class="target-line" style="text-align:center;margin-bottom:16px">
             <p class="small muted" id="dhikrTargetText"></p>
-            <div class="mini-progress"><span class="mini-progress-fill" id="dhikrProgressFill"></span></div>
+            <div class="mini-progress"><span class="mini-progress-fill" id="dhikrProgressFill" style="width:0%"></span></div>
           </div>
 
-          <button class="soft-button" id="resetDhikrBtn" style="margin-top:4px">Reset</button>
+          <button class="soft-button" id="resetDhikrBtn" style="margin-top:4px">إعادة تعيين</button>
         </div>
       </div>
-      <p class="source-note" id="sourceNote2"></p>
     </section>
 
     <!-- ─── DUAS SCREEN ─── -->
     <section class="screen" id="duasScreen">
       <div class="page-title">
-        <p class="eyebrow" id="duasEyebrow">Duas &amp; personal list</p>
-        <h2 id="duasTitle">Ask as if anything is possible.</h2>
+        <h2 id="duasTitle">اسأل كأن كل شيء ممكن.</h2>
       </div>
 
-      <!-- Dua Mode Card -->
       <article class="card">
         <div class="card-accent gold"></div>
         <div class="dua-mode-card">
           <div class="dua-mode-info">
-            <span class="dua-mode-eyebrow" id="duaModeSmall">No distraction</span>
-            <strong id="duaModeTitle">Dua Mode</strong>
-            <p id="duaModeDesc">Full-screen cards for your duas, one by one.</p>
+            <strong id="duaModeTitle">وضع الدعاء</strong>
+            <span class="dua-mode-eyebrow" id="duaModeSmall">بلا تشتيت</span>
+
+            <p id="duaModeDesc">بطاقات بشاشة كاملة لأدعيتك، واحدة تلو الأخرى.</p>
           </div>
-          <button class="gold-button" id="openDuaModeBtn">Enter dua mode</button>
+          <button class="gold-button" id="openDuaModeBtn">ادخل وضع الدعاء</button>
         </div>
       </article>
 
-      <!-- Personal Dua Builder -->
-      <article class="card personal-dua-builder">
-        <p class="eyebrow" id="builderLabel">Personal dua builder</p>
-        <h3 id="builderTitle">Write what your heart needs</h3>
-        <textarea id="personalDuaInput" rows="3" placeholder="Ya Allah, I ask You for..."></textarea>
-        <div id="duaPrompts"></div>
-        <button class="primary-button" id="savePersonalDuaBtn">Save personal dua</button>
-      </article>
+     
 
-      <!-- Personal Duas List -->
-      <div id="personalDuasList"></div>
 
-      <!-- Category Filter -->
+     
+
       <div class="sticky-chips">
         <div class="chip-row" id="duaCategoryChips"></div>
       </div>
 
-      <!-- Search -->
-      <div class="search-bar">
-        <input type="search" id="duaSearch" placeholder="Search duas...">
-      </div>
-
-      <!-- Duas List -->
       <div id="duasList"></div>
+      <article class="card personal-dua-builder add-my-dua-card">
+        <p class="eyebrow" id="builderLabel">أضف دعائي</p>
+        <h3 id="builderTitle">اختر اقتراحًا أو اكتب دعاءك الخاص</h3>
+        <textarea id="personalDuaInput" rows="3" placeholder="يا رب أسألك..."></textarea>
+        <div id="duaPrompts" class="dua-prompt-boxes"></div>
+        <button class="primary-button" id="savePersonalDuaBtn">أضف دعائي</button>
+      </article>
+
+      <div id="personalDuasList"></div>
     </section>
 
     <!-- ─── CHECKLIST SCREEN ─── -->
     <section class="screen" id="checklistScreen">
-      <div class="page-title">
-        <p class="eyebrow" id="checklistEyebrow">Worship plan</p>
-        <h2 id="checklistTitle">Choose progress, not pressure.</h2>
+      <div class="page-title checklist-page-title">
+        <p class="eyebrow" id="checklistEyebrow">خطة العبادة</p>
+        <h2 id="checklistTitle">يومك، بسيط وواضح</h2>
+        <p class="checklist-subtitle">
+          تعلّم ما تفعله. الأجر في المحاولة.
+        </p>
       </div>
-
-      <div class="sticky-chips">
-        <div class="chip-row" id="checklistTabs">
-          <button class="chip active" data-tab="essential" id="tabEssential">Essential</button>
-          <button class="chip" data-tab="recommended" id="tabRecommended">Recommended</button>
-          <button class="chip" data-tab="bonus" id="tabBonus">Bonus</button>
-          <button class="chip" data-tab="custom" id="tabCustom">My tasks</button>
-        </div>
+    
+      <div class="checklist-color-guide">
+        <span>دليل الألوان:</span>
+    
+        <b>
+          <i class="guide-dot essential"></i>
+          أساسي
+        </b>
+    
+        <b>
+          <i class="guide-dot recommended"></i>
+          مستحب
+        </b>
+    
+        <b>
+          <i class="guide-dot bonus"></i>
+          إضافي
+        </b>
       </div>
-
+    
       <article class="card custom-task-card" id="customTaskCard">
-        <p class="eyebrow" id="customTaskLabel">Add your own task</p>
+        <p class="eyebrow" id="customTaskLabel">أضف مهمتك الخاصة</p>
+    
         <div class="inline-form">
-          <input type="text" id="customTaskInput" placeholder="e.g. Call my parents"/>
-          <button class="primary-button" id="addCustomTaskBtn">Add</button>
+          <input
+            type="text"
+            id="customTaskInput"
+            placeholder="مثال: اتصل بوالديّ"
+          />
+    
+          <button class="primary-button" id="addCustomTaskBtn">
+            أضف
+          </button>
         </div>
       </article>
-
-      <div id="checklistList"></div>
+    
+      <div id="checklistList" class="checklist-list" aria-live="polite">
+        <article class="check-item essential" data-id="e1">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">أساسي</span>
+            </div>
+            <h4>صلاة الفجر في وقتها</h4>
+            <p>ابدأ يومك بطاعة واضحة وقلب حاضر.</p>
+          </div>
+        </article>
+        <article class="check-item essential" data-id="e2">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">أساسي</span>
+            </div>
+            <h4>اعقد نية صادقة</h4>
+            <p>اجعل يومك للمغفرة والدعاء والرجوع إلى الله.</p>
+          </div>
+        </article>
+        <article class="check-item essential" data-id="e3">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">أساسي</span>
+            </div>
+            <h4>صم يوم عرفة</h4>
+            <p>لغير الحجاج: صيامه يكفّر ذنوب السنة الماضية والقادمة بإذن الله.</p>
+          </div>
+        </article>
+        <article class="check-item essential" data-id="e4">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">أساسي</span>
+            </div>
+            <h4>اقرأ القرآن ولو آيات</h4>
+            <p>القليل بصدق خير من الكثير بلا حضور.</p>
+          </div>
+        </article>
+        <article class="check-item essential" data-id="e5">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">أساسي</span>
+            </div>
+            <h4>ادعُ بعد العصر</h4>
+            <p>خفف التشتت وابدأ دعاءً حاضرًا من قلبك.</p>
+          </div>
+        </article>
+        <article class="check-item essential" data-id="e6">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">أساسي</span>
+            </div>
+            <h4>أكثر من الدعاء في الساعة الأخيرة</h4>
+            <p>ادعُ للمغفرة، والوالدين، والمستقبل، والأمة، والجنة.</p>
+          </div>
+        </article>
+        <article class="check-item recommended" data-id="r1">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">مستحب</span>
+            </div>
+            <h4>أذكار الصباح</h4>
+            <p>ابدأ يومك بالذكر والطمأنينة.</p>
+          </div>
+        </article>
+        <article class="check-item recommended" data-id="r2">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">مستحب</span>
+            </div>
+            <h4>الاستغفار 100 مرة</h4>
+            <p>أستغفر الله وأتوب إليه، بقلب صادق.</p>
+          </div>
+        </article>
+        <article class="check-item recommended" data-id="r3">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">مستحب</span>
+            </div>
+            <h4>الصلاة على النبي ﷺ</h4>
+            <p>اللهم صلِّ وسلم على نبينا محمد.</p>
+          </div>
+        </article>
+        <article class="check-item recommended" data-id="r4">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">مستحب</span>
+            </div>
+            <h4>تلاوة سورة الكهف</h4>
+            <p>اقرأ ما تقدر عليه بخشوع وهدوء.</p>
+          </div>
+        </article>
+        <article class="check-item bonus" data-id="b1">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">إضافي</span>
+            </div>
+            <h4>1000 تسبيحة</h4>
+            <p>قسّمها على اليوم حتى لا تشعر بالضغط.</p>
+          </div>
+        </article>
+        <article class="check-item bonus" data-id="b2">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span class="level-badge">إضافي</span>
+            </div>
+            <h4>كتابة رسائل دعاء لأحبائك</h4>
+            <p>ذكّر غيرك بالخير وخذ أجر التذكير.</p>
+          </div>
+        </article>
+        <article class="check-item bonus" data-id="b3">
+          <button class="check-box" type="button" aria-label="تحديد المهمة"></button>
+          <div class="check-content">
+            <div class="check-top">
+              <span>⏱ قبل المغرب</span>
+              <span class="level-badge">إضافي</span>
+            </div>
+            <h4>الصدقة اليوم</h4>
+            <p>حتى القليل إذا خرج بصدق فهو عظيم.</p>
+          </div>
+        </article>
+      </div>
     </section>
-
-    <!-- ─── MORE SCREEN (Timeline + Settings) ─── -->
+    <!-- ─── MORE SCREEN ─── -->
     <section class="screen" id="moreScreen">
-      <div class="page-title">
-        <p class="eyebrow">More</p>
-        <h2>Timeline &amp; Settings</h2>
+      <div class="page-title settings-direct-title">
+        <h2 class="eyebrow">الإعدادات</h2>
       </div>
 
       <div class="more-tabs">
-        <button class="more-tab active" data-more="timeline">🗓 Timeline</button>
-        <button class="more-tab" data-more="settings">⚙️ Settings</button>
+        <button class="more-tab active" data-more="timeline">🗓 الجدول</button>
+        <button class="more-tab" data-more="settings">⚙️ الإعدادات</button>
       </div>
 
-      <!-- Timeline Section -->
-      <div class="more-section active" id="moreTimeline">
+      <!-- Timeline -->
+      <div class="more-section" id="moreTimeline">
         <div class="page-title" style="margin-top:4px">
-          <p class="eyebrow" id="timelineEyebrow">Best moments</p>
-          <h2 id="timelineTitle">Your Arafah journey.</h2>
+          <p class="eyebrow" id="timelineEyebrow">أفضل اللحظات</p>
+          <h2 id="timelineTitle">رحلتك في يوم عرفة.</h2>
         </div>
         <div class="timeline-list" id="timelineList"></div>
       </div>
 
-      <!-- Settings Section -->
-      <div class="more-section" id="moreSettings">
+      <!-- Settings -->
+      <div class="more-section active" id="moreSettings">
         <div class="page-title" style="margin-top:4px">
-          <p class="eyebrow" id="settingsEyebrow">Settings</p>
-          <h2 id="settingsTitle">Keep it simple.</h2>
         </div>
 
         <article class="card" style="padding:8px 16px">
-          <p class="settings-section-label">Display</p>
+          <p class="settings-section-label">العرض</p>
           <button class="settings-row" id="toggleThemeRow">
-            <span class="settings-row-label"><span>🌙</span><span id="darkModeLabel">Dark mode</span></span>
-            <span class="settings-row-value" id="themeState">Off</span>
+            <span class="settings-row-label"><span>🌙</span><span id="darkModeLabel">الوضع الداكن</span></span>
+            <span class="settings-row-value" id="themeState">مفعّل</span>
           </button>
           <hr style="border:none;border-top:1px solid var(--line);margin:2px 8px">
-          <div class="settings-row settings-language-row">
-            <span class="settings-row-label"><span>🌍</span><span id="languageSettingsLabel">Language</span></span>
-            <span class="settings-row-value" id="currentLanguageLabel">English</span>
+          <div class="settings-row">
+            <span class="settings-row-label"><span>🌍</span><span id="languageSettingsLabel">اللغة</span></span>
+            <span class="settings-row-value" id="currentLanguageLabel">العربية</span>
           </div>
           <div class="language-settings-grid" id="settingsLangGrid">
-            <button class="language-mini active" data-lang="en">English</button>
+            <button class="language-mini active" data-lang="ar">العربية</button>
+            <button class="language-mini" data-lang="en">English</button>
             <button class="language-mini" data-lang="fr">Français</button>
-            <button class="language-mini" data-lang="ar">العربية</button>
           </div>
         </article>
 
         <article class="card" style="padding:8px 16px">
-          <p class="settings-section-label" id="reminderSettingsLabel">Reminder</p>
-          <div class="protect-card card">
-            <h4 id="protectTitle">Protect your Arafah</h4>
-            <p id="protectText">Put your phone on focus mode. Use this app only for dhikr, duas, and your plan.</p>
+          <p class="settings-section-label" id="reminderSettingsLabel">تذكير</p>
+          <div class="protect-card">
+            <h4 id="protectTitle">احمِ يوم عرفتك</h4>
+            <p id="protectText">ضع هاتفك في وضع التركيز. استخدم هذا التطبيق للذكر والدعاء وخطتك فقط.</p>
           </div>
         </article>
 
         <article class="card" style="padding:8px 16px">
-          <p class="settings-section-label">Data</p>
+          <p class="settings-section-label">البيانات</p>
           <button class="settings-row" id="exportDataBtn">
-            <span class="settings-row-label"><span>📦</span><span id="exportLabel">Export my data</span></span>
-            <span class="settings-row-value" id="copyLabel">Copy</span>
+            <span class="settings-row-label"><span>📦</span><span id="exportLabel">تصدير بياناتي</span></span>
+            <span class="settings-row-value" id="copyLabel">نسخ</span>
           </button>
           <hr style="border:none;border-top:1px solid var(--line);margin:2px 8px">
           <button class="settings-row danger-text" id="resetAllBtn">
-            <span class="settings-row-label"><span>🗑️</span><span id="resetAllLabel">Reset all</span></span>
-            <span class="settings-row-value" id="resetLabel">Reset</span>
+            <span class="settings-row-label"><span>🗑️</span><span id="resetAllLabel">إعادة تعيين الكل</span></span>
+            <span class="settings-row-value" id="resetLabel">تهيئة</span>
           </button>
         </article>
       </div>
@@ -396,46 +664,42 @@
   <!-- Dua Mode Overlay -->
   <div class="dua-mode-overlay" id="duaModeOverlay" aria-hidden="true" role="dialog">
     <button class="close-mode" id="closeDuaModeBtn" aria-label="Close">✕</button>
-    <p class="dua-mode-counter" id="duaModeCounter">Dua 1/20</p>
+    <p class="dua-mode-counter" id="duaModeCounter">دعاء 1/20</p>
     <div class="dua-mode-card-full">
-      <p class="arabic xlarge" id="duaModeArabic"></p>
+      <p class="dua-mode-arabic" id="duaModeArabic"></p>
       <p class="dua-mode-text" id="duaModeText"></p>
-      <p class="source-note" id="duaModeSource"></p>
+      <p class="dua-mode-source-note" id="duaModeSource"></p>
       <div class="dua-mode-nav">
-        <button id="prevDuaModeBtn">← Previous</button>
-        <button id="nextDuaModeBtn">Next dua →</button>
+        <button id="prevDuaModeBtn">← السابق</button>
+        <button id="nextDuaModeBtn">التالي →</button>
       </div>
     </div>
   </div>
-
-  <!-- Bottom Nav -->
-  <nav class="bottom-nav" aria-label="Main navigation">
-    <button class="nav-button active" data-go="home">
-      <span>🏠</span>
-      <span class="nav-label" id="navHome">Home</span>
-    </button>
-    <button class="nav-button" data-go="dhikr">
-      <span>📿</span>
-      <span class="nav-label" id="navDhikr">Dhikr</span>
-    </button>
-    <button class="nav-button" data-go="duas">
-      <span>🤲</span>
-      <span class="nav-label" id="navDuas">Duas</span>
-    </button>
-    <button class="nav-button" data-go="checklist">
-      <span>📋</span>
-      <span class="nav-label" id="navPlan">Plan</span>
-    </button>
-    <button class="nav-button" data-go="more">
-      <span>☰</span>
-      <span class="nav-label" id="navMore">More</span>
-    </button>
-  </nav>
 
   <!-- Toast -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 </div><!-- /app-shell -->
+
+<!-- ═══════════════════════════════════════════
+     AUDIO ELEMENTS
+═══════════════════════════════════════════ -->
+<!-- 
+  Place your audio files in the same folder as your HTML.
+  Name them: takbeer.mp3 and labaik.mp3
+  Or replace the src values with your actual file paths/URLs.
+-->
+<audio id="audioTakbeer" preload="auto">
+  <source src="takbeer.mp3" type="audio/mpeg">
+  <source src="takbeer.ogg" type="audio/ogg">
+</audio>
+<audio id="audioLabaik" preload="auto">
+  <source src="labaik.mp3" type="audio/mpeg">
+  <source src="labaik.ogg" type="audio/ogg">
+</audio>
+
+<script src="https://cdn.jsdelivr.net/npm/adhan@4.4.3/dist/adhan.min.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
