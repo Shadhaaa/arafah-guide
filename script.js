@@ -850,6 +850,8 @@ function applyLanguage(lang) {
     shareReminderBtn: 'shareReminderBtn', shareProgressBtn: 'shareProgressBtn',
     makerDuaLabel: 'makerDuaLabel', makerDuaTitle: 'makerDuaTitle',
     makerDuaText: 'makerDuaText',
+    makerDuaLabel2: 'makerDuaLabel', makerDuaTitle2: 'makerDuaTitle',
+    makerDuaText2: 'makerDuaText',
     dhikrEyebrow: 'dhikrEyebrow', dhikrTitle: 'dhikrTitle',
     tapLabel: 'tapLabel', resetDhikrBtn: 'resetDhikrBtn',
     duasEyebrow: 'duasEyebrow', duasTitle: 'duasTitle',
